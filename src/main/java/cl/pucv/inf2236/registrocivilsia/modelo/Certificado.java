@@ -22,4 +22,28 @@ public class Certificado {
         this.personaAsociada = personaAsociada;
         this.fechaEmision = LocalDate.now();
     }
+    //getters 
+    public int getIdNacimiento(){
+        return this.idNacimiento;
+    }
+    public String getTipoCertificado(){
+        return this.tipoCertificado;
+    }
+    public LocalDate getFechaEmision(){
+        return this.fechaEmision;
+    }
+    public Persona getPersonaAsociada(){
+        return this.personaAsociada;
+    }
+    //setters
+    public void setIdNacimiento(int idNacimiento){
+        this.idNacimiento = idNacimiento;
+    }
+    public void setTipoCertificado(String TipoCertificado){
+        this.tipoCertificado = TipoCertificado;
+    }
+    public void setpersonaAsociada(Persona personaAsociada){
+        this.personaAsociada= personaAsociada;
+    }
+    
 }

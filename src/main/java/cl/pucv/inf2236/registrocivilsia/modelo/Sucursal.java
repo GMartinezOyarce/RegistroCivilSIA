@@ -20,4 +20,33 @@ public class Sucursal {
         this.ciudad = ciudad;
         this.region = region;
     }
+    //getters 
+    public int getIdSucursal(){
+        return this.idSucursal;
+    }
+    public String getNombre(){
+        return this.nombre;
+    }
+    public String getCiudad(){
+        return this.ciudad;
+    }
+    public String getRegion(){
+        return this.region;
+    }
+    
+    //setters
+    public void setIdSucursal(int idSucursal){
+        this.idSucursal = idSucursal;
+    }
+    public void setNombre(String nombre){
+        this.nombre = nombre;
+    }
+    public void setCiudad(String ciudad){
+        this.ciudad= ciudad;
+    }
+    public void setRegion(String region){
+        this.region = region;
+    }
+    
+    //metodos que se quieran implementar
 }

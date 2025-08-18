@@ -30,4 +30,50 @@ public class Persona {
        this.estaViva = true;          
        this.conyuge = null;           
     }
+    
+    //getters 
+    public String getRut(){
+        return this.rut;
+    }
+    public String getNombre(){
+        return this.nombre;
+    }
+    public LocalDate getFechaNacimiento(){
+        return this.fechaNacimiento;
+    }
+    public String getEstadoCivil(){
+        return this.estadoCivil;
+    }
+    public Persona getConyuge(){
+        return this.conyuge;
+    }
+    public boolean getEstaViva(){
+        return this.estaViva;
+    }
+    public Sucursal getSucursal(){
+        return this.sucursalAsignada;
+    }
+    
+     //getters 
+    public void setRut(String rut){
+        this.rut = rut;
+    }
+    public void setNombre(String nombre){
+        this.nombre = nombre;
+    }
+    public void setFechaNacimiento(LocalDate fechaNacimiento){
+        this.fechaNacimiento = fechaNacimiento;
+    }
+    public void setEstadoCivil(String estadoCivil){
+        this.estadoCivil = estadoCivil;
+    }
+    public void setConyuge(Persona conyuge){
+        this.conyuge = conyuge;
+    }
+    public void setEstaViva(boolean estaViva){
+        this.estaViva = estaViva;
+    }
+    public void setSucursal(Sucursal sucursalAsignada){
+        this.sucursalAsignada = sucursalAsignada;
+    }
 }

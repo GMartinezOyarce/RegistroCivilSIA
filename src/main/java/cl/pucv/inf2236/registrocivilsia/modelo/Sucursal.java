@@ -14,7 +14,7 @@ public class Sucursal {
     private String ciudad;
     private String region;
     
-    public Sucursal(int idSucursal, String nombre, String ciudad, String region){
+    public class Sucursal(int idSucursal, String nombre, String ciudad, String region){
         this.idSucursal = idSucursal;
         this.nombre = nombre;
         this.ciudad = ciudad;

@@ -28,5 +28,37 @@ public class Matrimonio {
         this.fechaMatrimonio = LocalDate.now();    
     }
     
+    //getters
+    public int getIdMatrimonio(){
+        return this.idMatrimonio;
+    }
+    public LocalDate getFechaMatrimonio(){
+        return this.fechaMatrimonio;
+    }
+    public Persona getConyuge1(){
+        return this.conyuge1;
+    }
+    public Persona getConyuge2(){
+        return this.conyuge2;
+    }
+    public Sucursal getSucursal(){
+        return this.sucursal;
+    }
     
+    //setters
+    public void setIdMatrimonio(int idMatrimonio){
+        this.idMatrimonio = idMatrimonio;
+    }
+    public void setFechaMatrimonio(LocalDate fechaMatrimonio){
+        this.fechaMatrimonio = fechaMatrimonio;
+    }
+    public void setConyuge1(Persona conyuge1){
+        this.conyuge1 = conyuge1;
+    }
+    public void setConyuge2(Persona conyuge2){
+        this.conyuge2 = conyuge2;
+    }
+    public void setSucursal(Sucursal sucursal){
+        this.sucursal = sucursal;
+    }
 }

@@ -21,4 +21,33 @@ public class Defuncion {
         this.causa = causa;
         this.fallecido = fallecido;
     }
+    
+    //getters
+    public int getIdActa(){
+        return this.idActa;
+    }
+    public LocalDate getFechaDefuncion(){
+        return this.fechaDefuncion;
+    }
+    public String getCausa(){
+        return this.causa;
+    }
+    public Persona getFallecido(){
+        return this.fallecido;
+    }
+    
+    //setters
+    public void setIdActa(int idActa){
+        this.idActa = idActa;
+    }
+    public void setFechaDefuncion(LocalDate fechaDefuncion){
+        this.fechaDefuncion = fechaDefuncion;
+    }
+    public void setCausa(String causa){
+        this.causa = causa;
+    }
+    public void setFallecido(Persona fallecido){
+        this.fallecido = fallecido;
+    }
 }
+

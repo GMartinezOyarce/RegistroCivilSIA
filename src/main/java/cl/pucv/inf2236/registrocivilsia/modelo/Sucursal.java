@@ -13,4 +13,11 @@ public class Sucursal {
     private String nombre;
     private String ciudad;
     private String region;
+    
+    public class Sucursal(int idSucursal, String nombre, String ciudad, String region){
+        this.idSucursal = idSucursal;
+        this.nombre = nombre;
+        this.ciudad = ciudad;
+        this.region = region;
+    }
 }

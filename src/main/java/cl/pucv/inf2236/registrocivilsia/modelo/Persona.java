@@ -15,7 +15,19 @@ public class Persona {
     private String nombre;
     private LocalDate fechaNacimiento;
     private String estadoCivil;
-    private Persona conyugue;
+    private Persona conyuge;
     private boolean estaViva;
     private Sucursal sucursalAsignada;
+    
+    
+    // es el mejor constructor que pude pensar con lo poco que se.(G)
+    public Persona(String rut, String nombre, LocalDate fechaNacimiento, Sucursal sucursalAsignada) {
+       this.rut = rut;
+       this.nombre = nombre;
+       this.fechaNacimiento = fechaNacimiento;
+       this.sucursalAsignada = sucursalAsignada;
+       this.estadoCivil = "Soltero/a"; 
+       this.estaViva = true;          
+       this.conyuge = null;           
+    }
 }

@@ -15,4 +15,10 @@ public class Certificado {
     private String tipoCertificado;
     private LocalDate fechaEmision;
     private Persona personaAsociada;
+    public Certificado(int idNacimiento, String tipoCertificado, Persona personaAsociada){
+        this.idNacimiento = idNacimiento;
+        this.tipoCertificado = tipoCertificado;
+        this.personaAsociada = personaAsociada;
+        this.fechaEmision = LocalDate.now();
+    }
 }

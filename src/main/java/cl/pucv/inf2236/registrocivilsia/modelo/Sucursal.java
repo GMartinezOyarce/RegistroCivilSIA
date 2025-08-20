@@ -4,6 +4,9 @@
  */
 package cl.pucv.inf2236.registrocivilsia.modelo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author gabom
@@ -13,12 +16,14 @@ public class Sucursal {
     private String nombre;
     private String ciudad;
     private String region;
+    private List<Persona> personasRegistradas;
     
     public Sucursal(int idSucursal, String nombre, String ciudad, String region){
         this.idSucursal = idSucursal;
         this.nombre = nombre;
         this.ciudad = ciudad;
         this.region = region;
+        this.personasRegistradas = new ArrayList<>();
     }
     //getters 
     public int getIdSucursal(){
@@ -49,4 +54,7 @@ public class Sucursal {
     }
     
     //metodos que se quieran implementar
-}
+    public void agregarPersona(Persona persona){
+        this.personasRegistradas.add(persona);
+    }
+}   

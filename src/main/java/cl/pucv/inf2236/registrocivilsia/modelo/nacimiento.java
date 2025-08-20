@@ -10,7 +10,7 @@ import java.time.LocalDate;
  *
  * @author gabom
  */
-public class nacimiento {
+public class Nacimiento {
     private int idActa;
     private LocalDate fechaInscripcion;
     private String lugarNacimiento;

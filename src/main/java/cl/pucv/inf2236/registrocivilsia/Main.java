@@ -40,6 +40,22 @@ public class Main {
             for(int i = 0; i< sucursales.size(); i++){
                 System.out.println((1 + i) + "." + sucursales.get(i).getNombre());
             }
-        }    
+            System.out.println("0. Salir del programa");
+            System.out.println("Ingrese opcion: ");
+            int opcion = Integer.parseInt(lector.readLine());
+            
+            if (opcion == 0){
+                salir = true;
+                continue;
+            }
+            if(opcion >= 1 && opcion <= sucursales.size()){
+                Sucursal sucursalSeleccionada = sucursales.get(opcion - 1);
+                //menuAccionesSucursal(lector, sistema, sucursalSeleccionada);
+                System.out.println("FUNCIOOONOOOO");
+            }else{
+                System.out.println("Opcion no valida, intente denuevo");
+            }
+        } 
+        System.out.println("Hasta Luego");
     }
 }

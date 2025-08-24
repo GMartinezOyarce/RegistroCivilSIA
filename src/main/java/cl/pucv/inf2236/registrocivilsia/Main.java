@@ -12,18 +12,18 @@ import cl.pucv.inf2236.registrocivilsia.modelo.logica.SistemaRegistroCivil;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.List;
+//import java.util.List;
 
 /**
  *
- * @author gabom
+ * @author gabo
  */
 public class Main {
 
     public static void main(String[] args) throws IOException {
         //inicializar lector y variable para leer datos;
         BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
-        String dato;
+        //String dato;
         
         //cargar Datos
         SistemaRegistroCivil sistema = new SistemaRegistroCivil();
@@ -34,28 +34,55 @@ public class Main {
         
         System.out.println("---Bienvenido al sistema del registro civil---");
         
-        while(!salir){   
-            System.out.println("--- Eliga la sucursal a la cual desea ingresar ---");
-            List<Sucursal> sucursales = sistema.getListaSucursales();
-            for(int i = 0; i< sucursales.size(); i++){
-                System.out.println((1 + i) + "." + sucursales.get(i).getNombre());
-            }
-            System.out.println("0. Salir del programa");
-            System.out.println("Ingrese opcion: ");
+        while (!salir) {
+            System.out.println("\n== MENÚ PRINCIPAL ==");
+            System.out.println("1. Registrar Nacimiento");
+            System.out.println("2. Registrar Matrimonio");
+            System.out.println("3. Registrar Defunción");
+            System.out.println("4. Emitir Certificado");
+            System.out.println("5. Mostrar todas las Personas del sistema");
+            System.out.println("6. Mostrar Personas por Sucursal");
+            System.out.println("0. Salir");
+            System.out.print("Seleccione una opción: ");
+
             int opcion = Integer.parseInt(lector.readLine());
-            
-            if (opcion == 0){
-                salir = true;
-                continue;
+
+            switch (opcion) {
+                case 1:
+                   // manejarRegistroNacimiento(scanner, sistema);
+                    break;
+                case 2:
+                    //manejarRegistroMatrimonio(scanner, sistema);
+                    break;
+                case 3:
+                    // Lógica para registrar defunción
+                    break;
+                case 4:
+                    // Lógica para emitir certificados
+                    break;
+                case 5:
+                    //mostrarTodasLasPersonas(sistema);
+                    break;
+                case 6:
+                    // Lógica para mostrar personas por sucursal (la que ya tenías)
+                    break;
+                case 0:
+                    salir = true;
+                    break;
+                default:
+                    System.out.println("Opción no válida.");
+                    break;
             }
-            if(opcion >= 1 && opcion <= sucursales.size()){
-                Sucursal sucursalSeleccionada = sucursales.get(opcion - 1);
-                //menuAccionesSucursal(lector, sistema, sucursalSeleccionada);
-                System.out.println("FUNCIOOONOOOO");
-            }else{
-                System.out.println("Opcion no valida, intente denuevo");
-            }
-        } 
-        System.out.println("Hasta Luego");
+        }
+        System.out.println("¡Hasta luego!");
     }
+    
+    //METODOS
+    public void menuAccionesSucursal(BufferedReader lector, SistemaRegistroCivil sistema, Sucursal sucursal){
+    
+    
+    }
+    
 }
+
+

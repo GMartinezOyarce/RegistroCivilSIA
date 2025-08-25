@@ -57,4 +57,17 @@ public class Sucursal {
     public void agregarPersona(Persona persona){
         this.personasRegistradas.add(persona);
     }
+    public void mostrarPersonasSucursal(){
+        if(personasRegistradas.size() < 1){
+            System.out.println("[No hay personas en la sucursal " + nombre + "]");
+        }
+        System.out.println("");
+        System.out.println("[Sucursal " + nombre + "]");
+        for(int i=0;i<personasRegistradas.size(); i++){
+            System.out.println("[Persona " + (i+1) + "]");
+            personasRegistradas.get(i).mostrar();
+            System.out.println("");
+        }
+        System.out.println("");
+    }
 }   

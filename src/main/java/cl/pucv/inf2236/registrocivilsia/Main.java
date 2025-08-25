@@ -49,7 +49,7 @@ public class Main {
 
             switch (opcion) {
                 case 1:
-                   // manejarRegistroNacimiento(scanner, sistema);
+                    // manejarRegistroNacimiento(scanner, sistema);
                     break;
                 case 2:
                     //manejarRegistroMatrimonio(scanner, sistema);
@@ -62,9 +62,20 @@ public class Main {
                     break;
                 case 5:
                     //mostrarTodasLasPersonas(sistema);
+                    sistema.mostrarPersonasGlobal();
                     break;
                 case 6:
                     // Lógica para mostrar personas por sucursal (la que ya tenías)
+                    int index;
+                    System.out.println("Seleccione Sucursal:");
+                    
+                    for(int i=0; i<sistema.getListaSucursales().size(); i++){
+                        System.out.println((i+1) + ". " + sistema.getListaSucursales().get(i).getNombre());
+                    }
+                    index = Integer.parseInt(lector.readLine());
+                    index--;
+                    
+                    sistema.getListaSucursales().get(index).mostrarPersonasSucursal();
                     break;
                 case 0:
                     salir = true;

@@ -8,6 +8,7 @@ package cl.pucv.inf2236.registrocivilsia.modelo.logica;
  // solo para poder ocupar las clases que se encuentran en la carpeta modelo
 import cl.pucv.inf2236.registrocivilsia.modelo.Persona;
 import cl.pucv.inf2236.registrocivilsia.modelo.Sucursal;
+import cl.pucv.inf2236.registrocivilsia.modelo.Nacimiento;
 
 
 import java.util.ArrayList;
@@ -74,5 +75,15 @@ public class SistemaRegistroCivil {
         this.mapPersonas.put(rebeca.getRut(), rebeca);
         this.mapPersonas.put(adazme.getRut(), adazme);
         this.mapPersonas.put(frecia.getRut(), frecia);
+    }
+    public void mostrarPersonasGlobal(){
+        int num=0;
+        System.out.println("");
+        for(Persona p : mapPersonas.values()){
+            System.out.println("[Persona " + (num+1) + "]");
+            p.mostrar();
+            System.out.println("");
+            num++;
+        }
     }
 }

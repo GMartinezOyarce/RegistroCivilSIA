@@ -11,7 +11,7 @@ import java.time.LocalDate;
  * @author gabom
  */
 
-public class NacimientoTmp {
+public class Nacimiento {
     private int idActa;
     private LocalDate fechaInscripcion;
     private String lugarNacimiento;
@@ -21,7 +21,7 @@ public class NacimientoTmp {
     private Persona progenitor1;
     private Persona progenitor2;
 
-    public NacimientoTmp(int idActa, LocalDate fechaInscripcion, String lugarNacimiento, Persona inscrito, Persona progenitor1, Persona progenitor2, Sucursal sucursalAsignada) {
+    public Nacimiento(int idActa, LocalDate fechaInscripcion, String lugarNacimiento, Persona inscrito, Persona progenitor1, Persona progenitor2, Sucursal sucursalAsignada) {
         this.idActa = idActa;
         this.fechaInscripcion = fechaInscripcion;
         this.lugarNacimiento = lugarNacimiento;

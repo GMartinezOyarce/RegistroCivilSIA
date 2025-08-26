@@ -8,7 +8,7 @@ package cl.pucv.inf2236.registrocivilsia.modelo.logica;
  // solo para poder ocupar las clases que se encuentran en la carpeta modelo
 import cl.pucv.inf2236.registrocivilsia.modelo.Persona;
 import cl.pucv.inf2236.registrocivilsia.modelo.Sucursal;
-import cl.pucv.inf2236.registrocivilsia.modelo.Nacimiento;
+import cl.pucv.inf2236.registrocivilsia.modelo.NacimientoTmp;
 
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ import java.util.Map;
  */
 public class SistemaRegistroCivil {
     private List<Sucursal> listaSucursales;
-    private List<Nacimiento> listaNacimiento;
+    private List<NacimientoTmp> listaNacimiento;
     private int idNacimiento = 0;
     private Map<String, Persona> mapPersonas;
     
@@ -97,7 +97,7 @@ public class SistemaRegistroCivil {
            progenitor2 = mapPersonas.get(rutProgenitor2);
            
            idNacimiento++;
-           Nacimiento nuevoNac = new Nacimiento(idNacimiento, fechaInscripcion, lugarNacimiento, nuevaPer, progenitor1, progenitor2, listaSucursales.get(index));
+           NacimientoTmp nuevoNac = new NacimientoTmp(idNacimiento, fechaInscripcion, lugarNacimiento, nuevaPer, progenitor1, progenitor2, listaSucursales.get(index));
            
            System.out.println("[Persona ingresada]");
            nuevaPer.mostrar();

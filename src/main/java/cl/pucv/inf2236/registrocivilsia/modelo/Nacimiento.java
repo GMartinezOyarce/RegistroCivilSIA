@@ -34,7 +34,7 @@ public class Nacimiento {
     public void mostrar(){
         System.out.println("Id acta: " + idActa);
         System.out.println("Fecha inscripcion: " + fechaInscripcion);
-        System.out.println("Sucursal asignada: " + sucursalAsignada);
+        System.out.println("Sucursal asignada: " + sucursalAsignada.getNombre());
         System.out.println("Nombre Inscrito: " + inscrito.getNombre());
         System.out.println("Rut Inscrito: " + inscrito.getRut());
         if(progenitor1 == null){
@@ -72,7 +72,6 @@ public class Nacimiento {
     public Persona getProgenitor2(){
         return this.progenitor2;
     }
-
     public Sucursal getSucursalAsignada() {
         return sucursalAsignada;
     }

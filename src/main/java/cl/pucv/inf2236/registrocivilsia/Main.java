@@ -48,6 +48,7 @@ public class Main {
             System.out.println("4. Emitir Certificado");
             System.out.println("5. Mostrar todas las Personas del sistema");
             System.out.println("6. Mostrar Personas por Sucursal");
+            System.out.println("7. Mostrar todos los Nacimientos");
             System.out.println("0. Salir");
             System.out.print("Seleccione una opción: ");
 
@@ -120,6 +121,9 @@ public class Main {
                     index--;
                     
                     sistema.getListaSucursales().get(index).mostrarPersonasSucursal();
+                    break;
+                case 7:
+                    sistema.mostrarNacimientosGlobal();
                     break;
                 case 0:
                     salir = true;

@@ -97,7 +97,7 @@ public class SistemaRegistroCivil {
            progenitor2 = mapPersonas.get(rutProgenitor2);
            
            idNacimiento++;
-           Nacimiento nuevoNac = new Nacimiento(idNacimiento, fechaInscripcion, lugarNacimiento, nuevaPer, progenitor1, progenitor2, listaSucursales.get(index));
+           Nacimiento nuevoNac = new Nacimiento(idNacimiento, fechaInscripcion, lugarNacimiento, nuevaPer, progenitor1, progenitor2, nuevaPer.getSucursal());
            
            System.out.println("[Persona ingresada]");
            nuevaPer.mostrar();
@@ -109,5 +109,18 @@ public class SistemaRegistroCivil {
            
            listaNacimiento.add(nuevoNac);
            mapPersonas.put(rutInscrito, nuevaPer);
+    }
+    public void mostrarNacimientosGlobal(){
+        System.out.println("");
+        if(listaNacimiento.size() == 0){
+            System.out.println("[No hay registros de nacimientos]");
+            return;
+        }
+        for(int i=0; i<listaNacimiento.size(); i++){
+            System.out.println("Nacimiento numero #" + (i+1) + ":");
+            listaNacimiento.get(i).mostrar();
+            System.out.println("");
+        }
+        System.out.println("[Fin de registros nacimiento]");
     }
 }

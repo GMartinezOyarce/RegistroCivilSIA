@@ -81,7 +81,7 @@ public class Persona {
     public void mostrar(){
         System.out.println("Rut: " + rut);
         System.out.println("Nombre: " + nombre);
-        System.out.println("Fecha de nacimiento " + fechaNacimiento.getDayOfMonth() + "/" + fechaNacimiento.getMonthValue() + "/" + fechaNacimiento.getYear());
+        System.out.println("Fecha de nacimiento: " + fechaNacimiento);
         System.out.println("Estado Civil: " + estadoCivil);
         if(conyuge != null){
             System.out.println("Rut conyuge: " + conyuge.getRut());

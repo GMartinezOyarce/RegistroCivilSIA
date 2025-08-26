@@ -23,10 +23,13 @@ import java.util.Map;
  */
 public class SistemaRegistroCivil {
     private List<Sucursal> listaSucursales;
+    private List<Nacimiento> listaNacimiento;
+    private int idNacimiento = 0;
     private Map<String, Persona> mapPersonas;
     
     public SistemaRegistroCivil(){
         this.listaSucursales = new ArrayList<>();
+        this.listaNacimiento = new ArrayList<>();
         this.mapPersonas = new HashMap<>();
     }
     
@@ -85,5 +88,26 @@ public class SistemaRegistroCivil {
             System.out.println("");
             num++;
         }
+    }
+    public void registrarNacimiento(int index, LocalDate fechaInscripcion, LocalDate fechaNacimiento, String lugarNacimiento,String rutProgenitor1, String rutProgenitor2, String rutInscrito, String nombre){
+           Persona nuevaPer = new Persona(rutInscrito,nombre,fechaNacimiento,listaSucursales.get(index));
+           
+           Persona progenitor1, progenitor2;
+           progenitor1 = mapPersonas.get(rutProgenitor1);
+           progenitor2 = mapPersonas.get(rutProgenitor2);
+           
+           idNacimiento++;
+           Nacimiento nuevoNac = new Nacimiento(idNacimiento, fechaInscripcion, lugarNacimiento, nuevaPer, progenitor1, progenitor2, listaSucursales.get(index));
+           
+           System.out.println("[Persona ingresada]");
+           nuevaPer.mostrar();
+           System.out.println("");
+           
+           System.out.println("[Acta registrada]");
+           nuevoNac.mostrar();
+           System.out.println("");
+           
+           listaNacimiento.add(nuevoNac);
+           mapPersonas.put(rutInscrito, nuevaPer);
     }
 }

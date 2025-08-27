@@ -29,6 +29,7 @@ public class Nacimiento {
         this.progenitor1 = progenitor1;
         this.progenitor2 = progenitor2;
         this.sucursalAsignada = sucursalAsignada;
+        this.fechaInscripcion = LocalDate.now();
     }
     
     public void mostrar(){
@@ -103,5 +104,4 @@ public class Nacimiento {
     public void setSucursalAsignada(Sucursal sucursalAsignada) {
         this.sucursalAsignada = sucursalAsignada;
     }
-    
 }

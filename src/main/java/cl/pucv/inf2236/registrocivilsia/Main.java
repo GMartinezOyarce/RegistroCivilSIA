@@ -5,6 +5,7 @@
 package cl.pucv.inf2236.registrocivilsia;
 
 //importacion de clases
+import cl.pucv.inf2236.registrocivilsia.modelo.Persona;
 import cl.pucv.inf2236.registrocivilsia.modelo.Sucursal;
 import cl.pucv.inf2236.registrocivilsia.modelo.logica.SistemaRegistroCivil;
 
@@ -104,7 +105,7 @@ public class Main {
                     // Lógica para registrar defunción
                     break;
                 case 4:
-                    // Lógica para emitir certificados
+                    main.menuCertificados(lector, sistema);
                     break;
                 case 5:
                     //mostrarTodasLasPersonas(sistema);
@@ -137,11 +138,49 @@ public class Main {
     }
     
     //METODOS
-    public void menuAccionesSucursal(BufferedReader lector, SistemaRegistroCivil sistema, Sucursal sucursal){
-    
-    
+    public void menuCertificados(BufferedReader lector, SistemaRegistroCivil sistema){
+        System.out.println("=== Emision de certificados ===");
+        System.out.println("Ingrese el RUT de la persona");
+        
+        String rut = lector.readLine();
+        
+        //creo la persona y luego verifico si es que existe
+        Persona persona = sistema.buscarPersonaRut(rut);
+        if (persona == null){
+            System.out.println("ERROR persona buscada no existe");
+            return
+          }
+        
+        boolean volver = false;
+        while(volver != true){
+            System.out.println("Seleccione el certificado que desea para: " + persona.getNombre());
+            System.out.println("1. Certificado de Nacimiento");
+            System.out.println("2. Certificado de Matrimonio");
+            System.out.println("3. Certificado de Defuncion");
+            System.out.println("0. volver");
+            
+            int opcion = Integer.parseInt(lector.readLine());
+            
+            /*
+            switch(opcion){
+                case 1:
+                    String certificado = sistema.generarCertificado(sistema.encontrarNacimientoPersona(persona.getRut()));
+                    System.out.println(certificado);
+                    break;
+                case 2: 
+                    String certificado = sistema.generarCertificado(sistema.encontrarMatrimonioPersona(persona.getRut()));
+                    System.out.println(certificado);
+                    break;
+                case 3:
+                    String certificado = sistema.generarCertificado(sistema.encontrarDefuncionPersona(persona.getRut()));
+                    System.out.println(certificado);
+                    break;
+            
+            
+            }
+            */
+        } 
     }
-    
 }
 
 

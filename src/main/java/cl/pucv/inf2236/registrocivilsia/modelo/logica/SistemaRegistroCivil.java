@@ -24,8 +24,12 @@ import java.util.Map;
 public class SistemaRegistroCivil {
     private List<Sucursal> listaSucursales;
     private List<Nacimiento> listaNacimiento;
-    private int idNacimiento = 0;
+    private List<Certificado> listaCertificados;
+    
     private Map<String, Persona> mapPersonas;
+    
+    //ID de listas
+    private int idNacimiento = 0;
     
     public SistemaRegistroCivil(){
         this.listaSucursales = new ArrayList<>();
@@ -122,5 +126,15 @@ public class SistemaRegistroCivil {
             System.out.println("");
         }
         System.out.println("[Fin de registros nacimiento]");
+    }
+    
+    public Persona buscarPersonaRut(String rut){
+        for(Persona p: this.mapPersonas.values()){
+            if(!rut.equalsIgnoreCase(p.getRut())) {
+                return p;
+            }
+            
+        }
+        return null;
     }
 }

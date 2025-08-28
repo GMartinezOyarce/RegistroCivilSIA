@@ -28,24 +28,7 @@ public class Matrimonio {
         this.fechaMatrimonio = LocalDate.now();    
     }
     
-    public void mostrar(){
-        System.out.println("Id Del Matrimonio: " + idMatrimonio);
-        System.out.println("Nombre Conyuge: " + conyuge1.getNombre());
-        System.out.println("Nombre Conyuge: " + conyuge2.getNombre());
-        if(fechaMatrimonio != null){
-            System.out.println("Fecha Del Matrimonio: " + fechaMatrimonio);
-        }
-        else{
-            System.out.println("Fecha No Establicida");
-        }
-        if(sucursal != null){
-            System.out.println("Sucursal Asignada: " + sucursal.getNombre());
-        }
-        else{
-            System.out.println("Sucursal No Asignada");
-        }
-        //Acepto cambios en los print
-    }
+
     
     //getters
     public int getIdMatrimonio(){

@@ -22,14 +22,6 @@ public class Defuncion {
         this.fallecido = fallecido;
     }
     
-    public void mostrar(){
-        System.out.println("Id acta: " + idActa);
-        System.out.println("Nombre Del Fallecido" + fallecido.getNombre());
-        System.out.println("Fecha Defuncion: " + fechaDefuncion);
-        System.out.println("Razon De La Defuncion" + causa);
-        //Creo que no necesita if, igual si es que necesita me escriben para cambiarlo
-    }
-    
     
     //getters
     public int getIdActa(){
@@ -76,3 +68,11 @@ public class Defuncion {
 }
 }
 
+    public void mostrar(){
+        System.out.println("Id acta: " + idActa);
+        System.out.println("Nombre Del Fallecido" + fallecido.getNombre());
+        System.out.println("Fecha Defuncion: " + fechaDefuncion);
+        System.out.println("Razon De La Defuncion" + causa);
+        //Creo que no necesita if, igual si es que necesita me escriben para cambiarlo
+    }
+}

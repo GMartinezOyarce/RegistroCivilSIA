@@ -6,6 +6,7 @@ package cl.pucv.inf2236.registrocivilsia.modelo.logica;
 
 
  // solo para poder ocupar las clases que se encuentran en la carpeta modelo
+import cl.pucv.inf2236.registrocivilsia.modelo.Matrimonio;
 import cl.pucv.inf2236.registrocivilsia.modelo.Persona;
 import cl.pucv.inf2236.registrocivilsia.modelo.Sucursal;
 import cl.pucv.inf2236.registrocivilsia.modelo.Nacimiento;
@@ -24,7 +25,9 @@ import java.util.Map;
 public class SistemaRegistroCivil {
     private List<Sucursal> listaSucursales;
     private List<Nacimiento> listaNacimiento;
+    private List<Matrimonio> listaMatrimonio;
     private int idNacimiento = 0;
+    private int idMatrimonio = 0;
     private Map<String, Persona> mapPersonas;
     
     public SistemaRegistroCivil(){
@@ -123,4 +126,28 @@ public class SistemaRegistroCivil {
         }
         System.out.println("[Fin de registros nacimiento]");
     }
+    
+    
+    public void registrarMatrimonio(int index, LocalDate fechaMatrimonio,String rutConyuge1, String rutConyuge2){
+        Persona conyuge1, conyuge2;
+        Sucursal sucursal;
+        sucursal = listaSucursales.get(index);
+        conyuge1 = mapPersonas.get(rutConyuge1);
+        conyuge2 = mapPersonas.get(rutConyuge2);
+           
+        idMatrimonio++;
+        Matrimonio nuevoMatri = new Matrimonio(idMatrimonio, conyuge1, conyuge2, sucursal);
+           
+        System.out.println("[Acta registrada]");
+        nuevoMatri.mostrar();
+        System.out.println("");
+           
+        listaMatrimonio.add(nuevoMatri);
+    }
+
+    public void registrarDefuncion(int index, LocalDate fechaDefuncion, String Causa, String rutFallecido) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+        
+        
 }

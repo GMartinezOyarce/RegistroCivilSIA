@@ -58,5 +58,21 @@ public class Defuncion {
     public void setFallecido(Persona fallecido){
         this.fallecido = fallecido;
     }
+    public String generarCertificado() {
+    String textoCertificado = String.format(
+        "--- CERTIFICADO DE DEFUNCIÓN ---\n" +
+        "Se certifica el fallecimiento de:\n\n" +
+        "Nombre: %s\n" +
+        "RUT: %s\n\n" +
+        "Fecha de Defunción: %s\n" +
+        "Causa: %s\n" +
+        "---------------------------------",
+        this.fallecido.getNombre(),
+        this.fallecido.getRut(),
+        this.fechaDefuncion,
+        this.causa
+    );
+    return textoCertificado;
+}
 }
 

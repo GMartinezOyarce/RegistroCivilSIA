@@ -27,7 +27,26 @@ public class Matrimonio {
         this.sucursal = sucursal;
         this.fechaMatrimonio = LocalDate.now();    
     }
-   
+    
+    public void mostrar(){
+        System.out.println("Id Del Matrimonio: " + idMatrimonio);
+        System.out.println("Nombre Conyuge: " + conyuge1.getNombre());
+        System.out.println("Nombre Conyuge: " + conyuge2.getNombre());
+        if(fechaMatrimonio != null){
+            System.out.println("Fecha Del Matrimonio: " + fechaMatrimonio);
+        }
+        else{
+            System.out.println("Fecha No Establicida");
+        }
+        if(sucursal != null){
+            System.out.println("Sucursal Asignada: " + sucursal.getNombre());
+        }
+        else{
+            System.out.println("Sucursal No Asignada");
+        }
+        //Acepto cambios en los print
+    }
+    
     //getters
     public int getIdMatrimonio(){
         return this.idMatrimonio;
@@ -61,25 +80,4 @@ public class Matrimonio {
     public void setSucursal(Sucursal sucursal){
         this.sucursal = sucursal;
     }
-    
-    //metodos
-    public String generarCertificado() {
-    String certificado = String.format(
-        "--- CERTIFICADO DE MATRIMONIO ---\n" +
-        "Se certifica que con fecha %s, contrajeron matrimonio:\n\n" +
-        "Contrayente 1:\n" +
-        "  Nombre: %s\n" +
-        "  RUT: %s\n\n" +
-        "Contrayente 2:\n" +
-        "  Nombre: %s\n" +
-        "  RUT: %s\n" +
-        "---------------------------------",
-        this.fechaMatrimonio,
-        this.conyuge1.getNombre(),
-        this.conyuge1.getRut(),
-        this.conyuge2.getNombre(),
-        this.conyuge2.getRut()
-    );
-    return certificado;
-}
 }

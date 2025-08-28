@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 /**
  *
- * @author gabom
+ * @author gabom (Esto me recuerda que Jayce de arcane firmaba todo lo que era suyo Xd)
  */
 public class Defuncion {
     private int idActa;
@@ -21,6 +21,15 @@ public class Defuncion {
         this.causa = causa;
         this.fallecido = fallecido;
     }
+    
+    public void mostrar(){
+        System.out.println("Id acta: " + idActa);
+        System.out.println("Nombre Del Fallecido" + fallecido.getNombre());
+        System.out.println("Fecha Defuncion: " + fechaDefuncion);
+        System.out.println("Razon De La Defuncion" + causa);
+        //Creo que no necesita if, igual si es que necesita me escriben para cambiarlo
+    }
+    
     
     //getters
     public int getIdActa(){

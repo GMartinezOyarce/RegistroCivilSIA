@@ -27,7 +27,7 @@ public class Matrimonio {
         this.sucursal = sucursal;
         this.fechaMatrimonio = LocalDate.now();    
     }
-    
+   
     //getters
     public int getIdMatrimonio(){
         return this.idMatrimonio;
@@ -61,4 +61,25 @@ public class Matrimonio {
     public void setSucursal(Sucursal sucursal){
         this.sucursal = sucursal;
     }
+    
+    //metodos
+    public String generarCertificado() {
+    String certificado = String.format(
+        "--- CERTIFICADO DE MATRIMONIO ---\n" +
+        "Se certifica que con fecha %s, contrajeron matrimonio:\n\n" +
+        "Contrayente 1:\n" +
+        "  Nombre: %s\n" +
+        "  RUT: %s\n\n" +
+        "Contrayente 2:\n" +
+        "  Nombre: %s\n" +
+        "  RUT: %s\n" +
+        "---------------------------------",
+        this.fechaMatrimonio,
+        this.conyuge1.getNombre(),
+        this.conyuge1.getRut(),
+        this.conyuge2.getNombre(),
+        this.conyuge2.getRut()
+    );
+    return certificado;
+}
 }

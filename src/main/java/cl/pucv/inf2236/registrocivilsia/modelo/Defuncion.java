@@ -16,7 +16,8 @@ public class Defuncion {
     private String causa;
     private Persona fallecido; 
     
-    public Defuncion(LocalDate fecha, String causa, Persona fallecido) {
+    public Defuncion(int idActa, LocalDate fecha, String causa, Persona fallecido) {
+        this.idActa = idActa;
         this.fechaDefuncion = fecha;
         this.causa = causa;
         this.fallecido = fallecido;

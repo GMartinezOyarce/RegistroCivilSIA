@@ -104,4 +104,28 @@ public class Nacimiento {
     public void setSucursalAsignada(Sucursal sucursalAsignada) {
         this.sucursalAsignada = sucursalAsignada;
     }
+    
+    //Metodos
+    
+    public String generarCertificado(){
+        String certificado = String.format(
+        "--- CERTIFICADO DE NACIMIENTO ---\n" +
+        "Se certifica que con fecha %s, fue inscrito(a):\n\n" +
+        "Nombre: %s\n" +
+        "RUT: %s\n\n" +
+        "Lugar de Nacimiento: %s\n" +
+        "Progenitor 1: %s\n" +
+        "Progenitor 2: %s\n" +
+        "---------------------------------",
+        this.fechaInscripcion,
+        this.inscrito.getNombre(),
+        this.inscrito.getRut(),
+        this.lugarNacimiento,
+        this.progenitor1.getNombre(),
+        this.progenitor2.getNombre()
+    );
+    return certificado;
+        
+    }
+    
 }

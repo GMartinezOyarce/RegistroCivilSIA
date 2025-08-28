@@ -5,6 +5,9 @@
 package cl.pucv.inf2236.registrocivilsia;
 
 //importacion de clases
+import cl.pucv.inf2236.registrocivilsia.modelo.Defuncion;
+import cl.pucv.inf2236.registrocivilsia.modelo.Matrimonio;
+import cl.pucv.inf2236.registrocivilsia.modelo.Nacimiento;
 import cl.pucv.inf2236.registrocivilsia.modelo.Persona;
 import cl.pucv.inf2236.registrocivilsia.modelo.Sucursal;
 import cl.pucv.inf2236.registrocivilsia.modelo.logica.SistemaRegistroCivil;
@@ -22,7 +25,7 @@ import java.time.LocalDate;
  */
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args)throws IOException {
         //variables que use (no sabia donde dejarlas) ATTE: cris
         int index, año, mes, dia;
         LocalDate fechaInscripcion, fechaNacimiento;
@@ -105,7 +108,7 @@ public class Main {
                     // Lógica para registrar defunción
                     break;
                 case 4:
-                    main.menuCertificados(lector, sistema);
+                    menuCertificados(lector, sistema);
                     break;
                 case 5:
                     //mostrarTodasLasPersonas(sistema);
@@ -138,20 +141,24 @@ public class Main {
     }
     
     //METODOS
-    public void menuCertificados(BufferedReader lector, SistemaRegistroCivil sistema){
+    public static void menuCertificados(BufferedReader lector, SistemaRegistroCivil sistema) throws IOException{
         System.out.println("=== Emision de certificados ===");
         System.out.println("Ingrese el RUT de la persona");
         
-        String rut = lector.readLine();
+        String rut;
+        rut = lector.readLine();
         
         //creo la persona y luego verifico si es que existe
         Persona persona = sistema.buscarPersonaRut(rut);
         if (persona == null){
             System.out.println("ERROR persona buscada no existe");
-            return
-          }
+            return;
+         }
         
         boolean volver = false;
+        
+        
+        
         while(volver != true){
             System.out.println("Seleccione el certificado que desea para: " + persona.getNombre());
             System.out.println("1. Certificado de Nacimiento");
@@ -160,25 +167,40 @@ public class Main {
             System.out.println("0. volver");
             
             int opcion = Integer.parseInt(lector.readLine());
+            String certificado;
             
-            /*
             switch(opcion){
                 case 1:
-                    String certificado = sistema.generarCertificado(sistema.encontrarNacimientoPersona(persona.getRut()));
-                    System.out.println(certificado);
+                    Nacimiento nacimiento = sistema.encontrarNacimiento(persona.getRut());
+                    if(nacimiento == null){
+                        System.out.println("No se encontro acta de nacimiento para esta persona");
+                    }else{
+                        certificado = nacimiento.generarCertificado();
+                        System.out.println(certificado);
+                    }
                     break;
                 case 2: 
-                    String certificado = sistema.generarCertificado(sistema.encontrarMatrimonioPersona(persona.getRut()));
-                    System.out.println(certificado);
+                    Matrimonio matrimonio = sistema.encontrarMatrimonio(persona.getRut());
+                    if( matrimonio == null){
+                        System.out.println("No se encontro acta de matrimonio para esta persona");
+                    }else{
+                        certificado = matrimonio.generarCertificado();
+                        System.out.println(certificado);
+                    }
                     break;
                 case 3:
-                    String certificado = sistema.generarCertificado(sistema.encontrarDefuncionPersona(persona.getRut()));
-                    System.out.println(certificado);
+                    Defuncion defuncion = sistema.encontrarDefuncion(persona.getRut());
+                    if( defuncion == null){
+                        System.out.println("No se encontro acta de defuncion para esta persona");
+                    }else{
+                        certificado = defuncion.generarCertificado();
+                        System.out.println(certificado);
+                    }
                     break;
-            
+                case 0:
+                    return;
             
             }
-            */
         } 
     }
 }

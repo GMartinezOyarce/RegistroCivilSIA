@@ -6,6 +6,8 @@ package cl.pucv.inf2236.registrocivilsia.modelo.logica;
 
 
  // solo para poder ocupar las clases que se encuentran en la carpeta modelo
+import cl.pucv.inf2236.registrocivilsia.modelo.Defuncion;
+import cl.pucv.inf2236.registrocivilsia.modelo.Matrimonio;
 import cl.pucv.inf2236.registrocivilsia.modelo.Persona;
 import cl.pucv.inf2236.registrocivilsia.modelo.Sucursal;
 import cl.pucv.inf2236.registrocivilsia.modelo.Nacimiento;
@@ -24,7 +26,8 @@ import java.util.Map;
 public class SistemaRegistroCivil {
     private List<Sucursal> listaSucursales;
     private List<Nacimiento> listaNacimiento;
-    private List<Certificado> listaCertificados;
+    private List<Defuncion> listaDefuncion;
+    private List<Matrimonio> listaMatrimonio;
     
     private Map<String, Persona> mapPersonas;
     
@@ -130,10 +133,37 @@ public class SistemaRegistroCivil {
     
     public Persona buscarPersonaRut(String rut){
         for(Persona p: this.mapPersonas.values()){
-            if(!rut.equalsIgnoreCase(p.getRut())) {
+            if(rut.equalsIgnoreCase(p.getRut())) {
                 return p;
             }
             
+        }
+        return null;
+    }
+    
+    public Nacimiento encontrarNacimiento(String rut){
+        for(int i = 0; i < this.listaNacimiento.size(); i++){
+            if(rut.equalsIgnoreCase(this.listaNacimiento.get(i).getInscrito().getRut())){
+                return this.listaNacimiento.get(i);
+            }
+        }
+            
+        return null;
+    }
+    public Matrimonio encontrarMatrimonio(String rut){
+        for(int i = 0; i < this.listaMatrimonio.size(); i++){
+            //verifico cada uno de los conyugues
+            if(rut.equalsIgnoreCase(this.listaMatrimonio.get(i).getConyuge1().getRut()) || rut.equalsIgnoreCase(this.listaMatrimonio.get(i).getConyuge2().getRut())){
+                return this.listaMatrimonio.get(i);
+            }
+         }
+        return null;
+    }
+    public Defuncion encontrarDefuncion(String rut){
+        for(int i = 0; i < this.listaDefuncion.size(); i++){
+            if(rut.equalsIgnoreCase(this.listaDefuncion.get(i).getFallecido().getRut())){
+                return this. listaDefuncion.get(i);
+            }
         }
         return null;
     }

@@ -15,11 +15,14 @@ public class Defuncion {
     private LocalDate fechaDefuncion;
     private String causa;
     private Persona fallecido; 
+    private Sucursal sucursal;
     
-    public Defuncion(LocalDate fecha, String causa, Persona fallecido) {
+    public Defuncion(int idActa, LocalDate fecha, String causa, Persona fallecido, Sucursal sucursal) {
+        this.idActa = idActa;
         this.fechaDefuncion = fecha;
         this.causa = causa;
         this.fallecido = fallecido;
+        this.sucursal = sucursal;
     }
     
     
@@ -36,6 +39,9 @@ public class Defuncion {
     public Persona getFallecido(){
         return this.fallecido;
     }
+    public Sucursal getSucursal(){
+        return this.sucursal;
+    }
     
     //setters
     public void setIdActa(int idActa){
@@ -50,13 +56,16 @@ public class Defuncion {
     public void setFallecido(Persona fallecido){
         this.fallecido = fallecido;
     }
+    public void setSucursal(Persona fallecido){
+        this.sucursal = sucursal;
+    }
     public String generarCertificado() {
     String textoCertificado = String.format(
-        "--- CERTIFICADO DE DEFUNCIÓN ---\n" +
+        "--- CERTIFICADO DE DEFUNCION ---\n" +
         "Se certifica el fallecimiento de:\n\n" +
         "Nombre: %s\n" +
         "RUT: %s\n\n" +
-        "Fecha de Defunción: %s\n" +
+        "Fecha de Defuncion: %s\n" +
         "Causa: %s\n" +
         "---------------------------------",
         this.fallecido.getNombre(),
@@ -66,13 +75,12 @@ public class Defuncion {
     );
     return textoCertificado;
 }
-}
 
     public void mostrar(){
         System.out.println("Id acta: " + idActa);
         System.out.println("Nombre Del Fallecido" + fallecido.getNombre());
         System.out.println("Fecha Defuncion: " + fechaDefuncion);
-        System.out.println("Razon De La Defuncion" + causa);
+        System.out.println("Razon De La Defuncion: " + causa);
         //Creo que no necesita if, igual si es que necesita me escriben para cambiarlo
     }
 }

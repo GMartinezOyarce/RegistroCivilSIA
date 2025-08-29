@@ -13,6 +13,7 @@ import java.time.LocalDate;
 
 public class Nacimiento {
     private int idActa;
+    private LocalDate fechaNacimiento;
     private LocalDate fechaInscripcion;
     private String lugarNacimiento;
     private Sucursal sucursalAsignada;
@@ -21,14 +22,14 @@ public class Nacimiento {
     private Persona progenitor1;
     private Persona progenitor2;
 
-    public Nacimiento(int idActa, LocalDate fechaInscripcion, String lugarNacimiento, Persona inscrito, Persona progenitor1, Persona progenitor2, Sucursal sucursalAsignada) {
+    public Nacimiento(int idActa, LocalDate fechaNacimiento,String lugarNacimiento, Persona inscrito, Persona progenitor1, Persona progenitor2, Sucursal sucursalAsignada) {
         this.idActa = idActa;
-        this.fechaInscripcion = fechaInscripcion;
         this.lugarNacimiento = lugarNacimiento;
         this.inscrito = inscrito;
         this.progenitor1 = progenitor1;
         this.progenitor2 = progenitor2;
         this.sucursalAsignada = sucursalAsignada;
+        this.fechaNacimiento = fechaNacimiento;
         this.fechaInscripcion = LocalDate.now();
     }
     

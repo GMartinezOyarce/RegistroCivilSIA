@@ -44,6 +44,7 @@ public class Persona {
     public String getEstadoCivil(){
         return this.estadoCivil;
     }
+ 
     public Persona getConyuge(){
         return this.conyuge;
     }
@@ -64,14 +65,22 @@ public class Persona {
     public void setFechaNacimiento(LocalDate fechaNacimiento){
         this.fechaNacimiento = fechaNacimiento;
     }
+    
     public void setEstadoCivil(String estadoCivil){
         this.estadoCivil = estadoCivil;
     }
+    public void setEstadoCivil(){
+        this.estadoCivil = "Casado/a";
+    }
+    
     public void setConyuge(Persona conyuge){
         this.conyuge = conyuge;
     }
     public void setEstaViva(boolean estaViva){
         this.estaViva = estaViva;
+    }
+    public void setEstaViva(){
+        this.estaViva = false;
     }
     public void setSucursal(Sucursal sucursalAsignada){
         this.sucursalAsignada = sucursalAsignada;
@@ -87,10 +96,10 @@ public class Persona {
             System.out.println("Rut conyuge: " + conyuge.getRut());
         }
         if(estaViva == true){
-            System.out.println("Estado: Vivo");
+            System.out.println("Estado: Vivo/a");
         }
         else{
-            System.out.println("Estado: Difunto");
+            System.out.println("Estado: Difunto/a");
         }
         System.out.println("Sucursal: " + sucursalAsignada.getNombre());        
     }

@@ -24,19 +24,24 @@ import java.util.Map;
  * @author gabom
  */
 public class SistemaRegistroCivil {
+    // listas 
     private List<Sucursal> listaSucursales;
     private List<Nacimiento> listaNacimiento;
-    private List<Defuncion> listaDefuncion;
     private List<Matrimonio> listaMatrimonio;
-    
+    private List<Defuncion> listaDefuncion; 
+    //mapa
     private Map<String, Persona> mapPersonas;
     
     //ID de listas
     private int idNacimiento = 0;
+    private int idMatrimonio = 0;
+    private int idDefuncion = 0;
     
     public SistemaRegistroCivil(){
         this.listaSucursales = new ArrayList<>();
         this.listaNacimiento = new ArrayList<>();
+        this.listaMatrimonio = new ArrayList<>();
+        this.listaDefuncion = new ArrayList<>();
         this.mapPersonas = new HashMap<>();
     }
     
@@ -96,15 +101,33 @@ public class SistemaRegistroCivil {
             num++;
         }
     }
-    public void registrarNacimiento(int index, LocalDate fechaInscripcion, LocalDate fechaNacimiento, String lugarNacimiento,String rutProgenitor1, String rutProgenitor2, String rutInscrito, String nombre){
+    public void registrarNacimiento(int index, LocalDate fechaNacimiento, String lugarNacimiento,String rutProgenitor1, String rutProgenitor2, String rutInscrito, String nombre){
            Persona nuevaPer = new Persona(rutInscrito,nombre,fechaNacimiento,listaSucursales.get(index));
            
            Persona progenitor1, progenitor2;
-           progenitor1 = mapPersonas.get(rutProgenitor1);
-           progenitor2 = mapPersonas.get(rutProgenitor2);
            
-           idNacimiento++;
-           Nacimiento nuevoNac = new Nacimiento(idNacimiento, fechaInscripcion, lugarNacimiento, nuevaPer, progenitor1, progenitor2, nuevaPer.getSucursal());
+           progenitor1 = busquedaPersona(rutProgenitor1);
+           progenitor2 = busquedaPersona(rutProgenitor2);
+           
+           /*otra forma
+           if(progenitor1==null || progenitor2==null){
+            System.out.println("Progenitor no encontrado");
+            return;
+           }
+           */
+           if(progenitor1==null){
+            System.out.println("Primer progenitor no encontrado");
+            return;
+           }
+           if(progenitor2==null){
+            System.out.println("Segundo progenitor no encontrado");
+            return;
+           }
+        
+           
+           this.idNacimiento++;
+           Nacimiento nuevoNac = new Nacimiento(this.idNacimiento,fechaNacimiento, lugarNacimiento, nuevaPer, progenitor1, progenitor2, nuevaPer.getSucursal());
+           
            
            System.out.println("[Persona ingresada]");
            nuevaPer.mostrar();
@@ -114,12 +137,15 @@ public class SistemaRegistroCivil {
            nuevoNac.mostrar();
            System.out.println("");
            
-           listaNacimiento.add(nuevoNac);
+           this.listaSucursales.get(index).agregarPersona(nuevaPer);
+           this.listaNacimiento.add(nuevoNac);
            mapPersonas.put(rutInscrito, nuevaPer);
+           
+           
     }
     public void mostrarNacimientosGlobal(){
         System.out.println("");
-        if(listaNacimiento.size() == 0){
+        if(listaNacimiento.isEmpty()){
             System.out.println("[No hay registros de nacimientos]");
             return;
         }
@@ -131,16 +157,85 @@ public class SistemaRegistroCivil {
         System.out.println("[Fin de registros nacimiento]");
     }
     
-    public Persona buscarPersonaRut(String rut){
-        for(Persona p: this.mapPersonas.values()){
-            if(rut.equalsIgnoreCase(p.getRut())) {
-                return p;
+    
+    public void registrarMatrimonio(int index, String rutConyuge1, String rutConyuge2){
+        Persona conyuge1, conyuge2;
+        Sucursal sucursal;
+        sucursal = listaSucursales.get(index);
+        
+        conyuge1 = busquedaPersona(rutConyuge1);
+        conyuge2 = busquedaPersona(rutConyuge2);
+        
+        /*
+        Esto podria ser uno y solo Poner persona no encontrada
+        pero creo que es mejor que sepan cual fallo
+        pongo el otro caso para más comodida
+        if(conyuge1==null || conyuge2==null){
+            System.out.println("Conyuge no encontrado");
+            return;
+        }
+        
+        */
+        if(conyuge1==null){
+            System.out.println("Primer conyuge no encontrado");
+            return;
+        }
+        if(conyuge2==null){
+            System.out.println("Segundo conyuge no encontrado");
+            return;
+        }
+        
+        idMatrimonio++;
+        Matrimonio nuevoMatri = new Matrimonio(idMatrimonio, conyuge1, conyuge2, sucursal);
+        
+        conyuge1.setConyuge(conyuge2);
+        conyuge1.setEstadoCivil("");
+        
+        conyuge2.setConyuge(conyuge1);
+        conyuge2.setEstadoCivil("");
+        
+           
+        System.out.println("[Matrimonio registrado]");
+        nuevoMatri.mostrar();
+        System.out.println("");
+           
+        this.listaMatrimonio.add(nuevoMatri);
+    }
+
+    public void registrarDefuncion(int index, LocalDate fechaDefuncion, String Causa, String rutFallecido) {
+        Persona fallecido;
+        Sucursal sucursal;
+        sucursal = listaSucursales.get(index);
+        
+        fallecido = busquedaPersona(rutFallecido);
+        
+        if(fallecido==null){
+            System.out.println("Persona no encontrada");
+            return;
+        }
+        
+        this.idDefuncion++;
+        Defuncion nuevoDefun = new Defuncion(this.idDefuncion, fechaDefuncion, Causa, fallecido, sucursal);
+           
+        System.out.println("[Defuncion registrada]");
+        nuevoDefun.mostrar();
+        System.out.println("");
+        
+        if(fallecido.getConyuge()!=null){
+            fallecido.getConyuge().setEstadoCivil("Viuda/o");
+        }
+        fallecido.setEstaViva();
+        listaDefuncion.add(nuevoDefun);
+    }
+    
+    public Persona busquedaPersona(String rutPers){
+        for(Persona perso : mapPersonas.values()){
+            if(rutPers.equals(perso.getRut())){
+                return perso;
             }
-            
         }
         return null;
     }
-    
     public Nacimiento encontrarNacimiento(String rut){
         for(int i = 0; i < this.listaNacimiento.size(); i++){
             if(rut.equalsIgnoreCase(this.listaNacimiento.get(i).getInscrito().getRut())){
@@ -159,6 +254,7 @@ public class SistemaRegistroCivil {
          }
         return null;
     }
+    
     public Defuncion encontrarDefuncion(String rut){
         for(int i = 0; i < this.listaDefuncion.size(); i++){
             if(rut.equalsIgnoreCase(this.listaDefuncion.get(i).getFallecido().getRut())){
@@ -167,4 +263,6 @@ public class SistemaRegistroCivil {
         }
         return null;
     }
+    
+    
 }

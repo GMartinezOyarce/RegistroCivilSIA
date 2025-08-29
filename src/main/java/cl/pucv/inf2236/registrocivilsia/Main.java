@@ -35,7 +35,6 @@ public class Main {
         
         
         //variables Matrimonio ATTE: yayo
-        LocalDate fechaMatrimonio;
         String rutConyuge1, rutConyuge2;
         
         //variables Defuncion ATTE: yayo
@@ -57,16 +56,16 @@ public class Main {
         System.out.println("---Bienvenido al sistema del registro civil---");
         
         while (!salir) {
-            System.out.println("\n== MENÚ PRINCIPAL ==");
+            System.out.println("\n== MENU PRINCIPAL ==");
             System.out.println("1. Registrar Nacimiento");
             System.out.println("2. Registrar Matrimonio");
-            System.out.println("3. Registrar Defunción");
+            System.out.println("3. Registrar Defuncion");
             System.out.println("4. Emitir Certificado");
             System.out.println("5. Mostrar todas las Personas del sistema");
             System.out.println("6. Mostrar Personas por Sucursal");
             System.out.println("7. Mostrar todos los Nacimientos");
             System.out.println("0. Salir");
-            System.out.print("Seleccione una opción: ");
+            System.out.print("Seleccione una opcion: ");
 
             int opcion = Integer.parseInt(lector.readLine());
 
@@ -83,15 +82,7 @@ public class Main {
                     }
                     index = Integer.parseInt(lector.readLine());
                     index--;
-                    
-                    
-                    System.out.println("Ingrese año de inscripcion:");
-                    año = Integer.parseInt(lector.readLine());
-                    System.out.println("Ingrese mes de inscripcion:");
-                    mes = Integer.parseInt(lector.readLine());
-                    System.out.println("Ingrese dia de inscripcion:");
-                    dia = Integer.parseInt(lector.readLine());
-                    fechaInscripcion = LocalDate.of(año,mes,dia);
+                  
                     System.out.println("Ingrese lugar del nacimiento:");
                     lugarNacimiento = lector.readLine();
                     System.out.println("Ingrese el rut del primer progenitor del nacimiento:");
@@ -110,11 +101,11 @@ public class Main {
                     dia = Integer.parseInt(lector.readLine());
                     fechaNacimiento = LocalDate.of(año,mes,dia);
                     
-                    sistema.registrarNacimiento(index, fechaInscripcion, fechaNacimiento, lugarNacimiento, rutProgenitor1, rutProgenitor2, rutInscrito, nombre);
+                    sistema.registrarNacimiento(index, fechaNacimiento, lugarNacimiento, rutProgenitor1, rutProgenitor2, rutInscrito, nombre);
+                    
                     
                     break;
                 case 2:
-                    //manejarRegistroMatrimonio(scanner, sistema);
                     
                     //Creo que poner la sucursal primero es bueno por lo que lo copie
                     System.out.println("Seleccione Sucursal:");
@@ -124,17 +115,6 @@ public class Main {
                     }
                     index = Integer.parseInt(lector.readLine());
                     index--;
-                    
-                    //Fecha del Matrimonio
-                    
-                    System.out.println("Ingrese año del matrimonio:");
-                    año = Integer.parseInt(lector.readLine());
-                    System.out.println("Ingrese mes del matrimonio:");
-                    mes = Integer.parseInt(lector.readLine());
-                    System.out.println("Ingrese dia del matrimonio::");
-                    dia = Integer.parseInt(lector.readLine());
-                    fechaMatrimonio = LocalDate.of(año,mes,dia);
-                    //me falta hacer el cambio en el archivo de matriomnio para que la fecha se llene desde aqui nomas
 
                     //Rut de las Personas
                     System.out.println("Ingrese el rut del primer Conyuge del Matrimonio:");
@@ -143,7 +123,7 @@ public class Main {
                     rutConyuge2 = lector.readLine();
                     
                     //Ingreso de Datos
-                    sistema.registrarMatrimonio(index, fechaMatrimonio, rutConyuge1, rutConyuge2);
+                    sistema.registrarMatrimonio(index, rutConyuge1, rutConyuge2);
                     
                     
                     break;
@@ -162,7 +142,7 @@ public class Main {
                     System.out.println("Ingrese la causa de la defuncion");
                     Causa = lector.readLine();
                     
-                    //sistema.registrarDefuncion(index, fechaDefuncion, Causa, rutFallecido);
+                    sistema.registrarDefuncion(index, fechaDefuncion, Causa, rutFallecido);
                     
                     break;
                 case 4:
@@ -207,7 +187,7 @@ public class Main {
         rut = lector.readLine();
         
         //creo la persona y luego verifico si es que existe
-        Persona persona = sistema.buscarPersonaRut(rut);
+        Persona persona = sistema.busquedaPersona(rut);
         if (persona == null){
             System.out.println("ERROR persona buscada no existe");
             return;

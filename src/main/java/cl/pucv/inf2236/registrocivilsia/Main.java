@@ -31,7 +31,6 @@ public class Main {
         
         
         //variables Matrimonio ATTE: yayo
-        LocalDate fechaMatrimonio;
         String rutConyuge1, rutConyuge2;
         
         //variables Defuncion ATTE: yayo
@@ -120,17 +119,6 @@ public class Main {
                     }
                     index = Integer.parseInt(lector.readLine());
                     index--;
-                    
-                    //Fecha del Matrimonio
-                    
-                    System.out.println("Ingrese año del matrimonio:");
-                    año = Integer.parseInt(lector.readLine());
-                    System.out.println("Ingrese mes del matrimonio:");
-                    mes = Integer.parseInt(lector.readLine());
-                    System.out.println("Ingrese dia del matrimonio::");
-                    dia = Integer.parseInt(lector.readLine());
-                    fechaMatrimonio = LocalDate.of(año,mes,dia);
-                    //me falta hacer el cambio en el archivo de matriomnio para que la fecha se llene desde aqui nomas
 
                     //Rut de las Personas
                     System.out.println("Ingrese el rut del primer Conyuge del Matrimonio:");
@@ -139,7 +127,7 @@ public class Main {
                     rutConyuge2 = lector.readLine();
                     
                     //Ingreso de Datos
-                    sistema.registrarMatrimonio(index, fechaMatrimonio, rutConyuge1, rutConyuge2);
+                    sistema.registrarMatrimonio(index, rutConyuge1, rutConyuge2);
                     
                     
                     break;
@@ -158,7 +146,7 @@ public class Main {
                     System.out.println("Ingrese la causa de la defuncion");
                     Causa = lector.readLine();
                     
-                    //sistema.registrarDefuncion(index, fechaDefuncion, Causa, rutFallecido);
+                    sistema.registrarDefuncion(index, fechaDefuncion, Causa, rutFallecido);
                     
                     break;
                 case 4:

@@ -15,12 +15,14 @@ public class Defuncion {
     private LocalDate fechaDefuncion;
     private String causa;
     private Persona fallecido; 
+    private Sucursal sucursal;
     
-    public Defuncion(int idActa, LocalDate fecha, String causa, Persona fallecido) {
+    public Defuncion(int idActa, LocalDate fecha, String causa, Persona fallecido, Sucursal sucursal) {
         this.idActa = idActa;
         this.fechaDefuncion = fecha;
         this.causa = causa;
         this.fallecido = fallecido;
+        this.sucursal = sucursal;
     }
     
     
@@ -37,6 +39,9 @@ public class Defuncion {
     public Persona getFallecido(){
         return this.fallecido;
     }
+    public Sucursal getSucursal(){
+        return this.sucursal;
+    }
     
     //setters
     public void setIdActa(int idActa){
@@ -50,6 +55,9 @@ public class Defuncion {
     }
     public void setFallecido(Persona fallecido){
         this.fallecido = fallecido;
+    }
+    public void setSucursal(Persona fallecido){
+        this.sucursal = sucursal;
     }
 
     public void mostrar(){

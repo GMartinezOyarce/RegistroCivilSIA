@@ -6,6 +6,7 @@ package cl.pucv.inf2236.registrocivilsia.modelo.logica;
 
 
  // solo para poder ocupar las clases que se encuentran en la carpeta modelo
+import cl.pucv.inf2236.registrocivilsia.modelo.Defuncion;
 import cl.pucv.inf2236.registrocivilsia.modelo.Matrimonio;
 import cl.pucv.inf2236.registrocivilsia.modelo.Persona;
 import cl.pucv.inf2236.registrocivilsia.modelo.Sucursal;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 /**
@@ -26,8 +28,10 @@ public class SistemaRegistroCivil {
     private List<Sucursal> listaSucursales;
     private List<Nacimiento> listaNacimiento;
     private List<Matrimonio> listaMatrimonio;
+    private List<Defuncion> listaDefuncion; 
     private int idNacimiento = 0;
     private int idMatrimonio = 0;
+    private int idDefuncion = 0;
     private Map<String, Persona> mapPersonas;
     
     public SistemaRegistroCivil(){
@@ -99,8 +103,28 @@ public class SistemaRegistroCivil {
            progenitor1 = mapPersonas.get(rutProgenitor1);
            progenitor2 = mapPersonas.get(rutProgenitor2);
            
+           progenitor1 = BusquedaPersona(rutProgenitor1);
+           progenitor2 = BusquedaPersona(rutProgenitor2);
+           
+           /*otra forma
+           if(progenitor1==null || progenitor2==null){
+            System.out.println("Progenitor no encontrado");
+            return;
+           }
+           */
+           if(progenitor1==null){
+            System.out.println("Primer progenitor no encontrado");
+            return;
+           }
+           if(progenitor2==null){
+            System.out.println("Segundo progenitor no encontrado");
+            return;
+           }
+        
+           
            idNacimiento++;
            Nacimiento nuevoNac = new Nacimiento(idNacimiento, fechaInscripcion, lugarNacimiento, nuevaPer, progenitor1, progenitor2, nuevaPer.getSucursal());
+           
            
            System.out.println("[Persona ingresada]");
            nuevaPer.mostrar();
@@ -128,17 +152,42 @@ public class SistemaRegistroCivil {
     }
     
     
-    public void registrarMatrimonio(int index, LocalDate fechaMatrimonio,String rutConyuge1, String rutConyuge2){
+    public void registrarMatrimonio(int index, String rutConyuge1, String rutConyuge2){
         Persona conyuge1, conyuge2;
         Sucursal sucursal;
         sucursal = listaSucursales.get(index);
         conyuge1 = mapPersonas.get(rutConyuge1);
         conyuge2 = mapPersonas.get(rutConyuge2);
-           
+        
+        conyuge1 = BusquedaPersona(rutConyuge1);
+        conyuge2 = BusquedaPersona(rutConyuge2);
+        
+        /*
+        Esto podria ser uno y solo Poner persona no encontrada
+        pero creo que es mejor que sepan cual fallo
+        pongo el otro caso para más comodida
+        if(conyuge1==null || conyuge2==null){
+            System.out.println("Conyuge no encontrado");
+            return;
+        }
+        
+        */
+        if(conyuge1==null){
+            System.out.println("Primer conyuge no encontrado");
+            return;
+        }
+        if(conyuge2==null){
+            System.out.println("Segundo conyuge no encontrado");
+            return;
+        }
+        
         idMatrimonio++;
         Matrimonio nuevoMatri = new Matrimonio(idMatrimonio, conyuge1, conyuge2, sucursal);
+        
+        conyuge1.setConyuge(conyuge2);
+        conyuge2.setConyuge(conyuge1);
            
-        System.out.println("[Acta registrada]");
+        System.out.println("[Matrimonio registrado]");
         nuevoMatri.mostrar();
         System.out.println("");
            
@@ -146,8 +195,39 @@ public class SistemaRegistroCivil {
     }
 
     public void registrarDefuncion(int index, LocalDate fechaDefuncion, String Causa, String rutFallecido) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Persona fallecido;
+        Sucursal sucursal;
+        sucursal = listaSucursales.get(index);
+        fallecido = mapPersonas.get(rutFallecido);
+        
+        fallecido = BusquedaPersona(rutFallecido);
+        
+        if(fallecido==null){
+            System.out.println("Persona no encontrada");
+            return;
+        }
+        
+        idDefuncion++;
+        Defuncion nuevoDefun = new Defuncion(idDefuncion, fechaDefuncion, Causa, fallecido, sucursal);
+           
+        System.out.println("[Defuncion registrada]");
+        nuevoDefun.mostrar();
+        System.out.println("");
+        
+        if(fallecido.getConyuge()!=null){
+            fallecido.getConyuge().setEstadoCivil("Viuda/o");
+        }
+        listaDefuncion.add(nuevoDefun);
     }
-        
-        
+    
+    public Persona BusquedaPersona(String rutPers){
+        for(Persona perso : mapPersonas.values()){
+            if(rutPers.equals(perso.getRut())){
+                return perso;
+            }
+        }
+        return null;
+    }
+    
+    
 }

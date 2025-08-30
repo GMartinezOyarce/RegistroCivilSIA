@@ -13,9 +13,10 @@ El sistema Permite administrar las operaciones fundamentales de una red de ofici
 
 # Requisitos del Sistema
 Para compilar y ejecutar este proyecto, necesitas tener instalado el siguiente software:
--Java Development kit (JDK): version Oracle JDK 11 o similar.
--IDE de Java: el proyecto esta configurado para Apache Netbeans 21 (recomendado) o Eclipse.
--git: Para clonar el repositorio.
+
+- Java Development kit (JDK): version Oracle JDK 11 o similar.
+- IDE de Java: el proyecto esta configurado para Apache Netbeans 21 (recomendado) o Eclipse.
+
 
 # Instalacion y ejecucion
 Sigue estos pasos para poner en marcha el proyecto en tu computadora.

@@ -59,6 +59,11 @@ public class Nacimiento {
     public int getIdActa(){
         return this.idActa;
     }
+    
+    public LocalDate getFechaNacimiento(){
+        return this.fechaNacimiento;    
+    }
+    
     public LocalDate getFechaInscripcion(){
         return this.fechaInscripcion;
     }
@@ -112,6 +117,7 @@ public class Nacimiento {
         String certificado = String.format(
         "--- CERTIFICADO DE NACIMIENTO ---\n" +
         "Se certifica que con fecha %s, fue inscrito(a):\n\n" +
+         "Nacido el dia de :" +  
         "Nombre: %s\n" +
         "RUT: %s\n\n" +
         "Lugar de Nacimiento: %s\n" +
@@ -119,6 +125,7 @@ public class Nacimiento {
         "Progenitor 2: %s\n" +
         "---------------------------------",
         this.fechaInscripcion,
+        this.fechaNacimiento,
         this.inscrito.getNombre(),
         this.inscrito.getRut(),
         this.lugarNacimiento,

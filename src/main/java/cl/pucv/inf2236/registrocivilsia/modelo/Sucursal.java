@@ -25,6 +25,9 @@ public class Sucursal {
         this.region = region;
         this.personasRegistradas = new ArrayList<>();
     }
+    
+    
+    
     //getters 
     public int getIdSucursal(){
         return this.idSucursal;
@@ -69,5 +72,11 @@ public class Sucursal {
             System.out.println("");
         }
         System.out.println("");
+    }
+    public void mostrarSucursal(){
+        System.out.println("Id sucursal: "+ idSucursal);
+        System.out.println("Nombre: "+ nombre);
+        System.out.println("Ciudad: "+ ciudad);
+        System.out.println("Region: "+ region);
     }
 }   

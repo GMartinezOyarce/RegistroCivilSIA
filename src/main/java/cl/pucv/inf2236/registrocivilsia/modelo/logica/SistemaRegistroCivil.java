@@ -264,5 +264,65 @@ public class SistemaRegistroCivil {
         return null;
     }
     
-    
+    public boolean agregarSucursal(int idSucursal, String nombre, String ciudad, String region){
+        for(int i=0; i<listaSucursales.size();i++){
+            if(listaSucursales.get(i).getIdSucursal()==idSucursal){
+                return false;
+            }
+        }
+        
+        Sucursal newSur=new Sucursal(idSucursal, nombre, ciudad, region);
+        listaSucursales.add(newSur);
+        return true;
+    }
+    public boolean modificarSucursal(int idSucursal, String nombre, String ciudad, String region){
+        for(int i=0; i<listaSucursales.size();i++){
+            if(listaSucursales.get(i).getIdSucursal()==idSucursal){
+                listaSucursales.get(i).setCiudad(ciudad);
+                listaSucursales.get(i).setNombre(nombre);
+                listaSucursales.get(i).setRegion(region);
+                
+                System.out.println("[Sucursal modificada]");
+                listaSucursales.get(i).mostrarSucursal();
+                System.out.println("");
+                
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean eliminarSucursal(int idSucursal){
+        for(int i=0; i<listaSucursales.size();i++){
+            if(listaSucursales.get(i).getIdSucursal()==idSucursal){
+                listaSucursales.remove(i);
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean buscarSucursal(int idSucursal){
+        for(int i=0; i<listaSucursales.size();i++){
+            if(listaSucursales.get(i).getIdSucursal()==idSucursal){
+                System.out.println("[Sucursal encontrada]");
+                listaSucursales.get(i).mostrarSucursal();
+                return true;
+            }
+        }
+        return false;
+    }
+    public void listarSucursales(){
+        boolean haySucursales=false;
+        for(int i=0; i<listaSucursales.size();i++){
+            
+            System.out.println("[Sucursal #"+ (i+1) +"]");
+            listaSucursales.get(i).mostrarSucursal();
+            System.out.println("");
+            if(haySucursales==false){
+                haySucursales=true;
+            }
+        }
+        if(haySucursales==false)
+            System.out.println("[No hay sucursales]");
+        
+    }
 }

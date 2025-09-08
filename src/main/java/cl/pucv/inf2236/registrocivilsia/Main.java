@@ -28,6 +28,11 @@ public class Main {
     public static void main(String[] args)throws IOException {
         //variables que use (no sabia donde dejarlas) ATTE: cris
         int index = 0, año, mes, dia;
+        boolean operacionExitosa;
+        
+        //variables de Sucursal ATTE: el cris
+        int idSucursal;
+        String nombreS, ciudad, region;
         
         //variables Nacimiento ATTE: cris
         LocalDate fechaInscripcion, fechaNacimiento;
@@ -57,13 +62,18 @@ public class Main {
         
         while (!salir) {
             System.out.println("\n== MENU PRINCIPAL ==");
-            System.out.println("1. Registrar Nacimiento");
-            System.out.println("2. Registrar Matrimonio");
-            System.out.println("3. Registrar Defuncion");
-            System.out.println("4. Emitir Certificado");
-            System.out.println("5. Mostrar todas las Personas del sistema");
-            System.out.println("6. Mostrar Personas por Sucursal");
-            System.out.println("7. Mostrar todos los Nacimientos");
+            System.out.println("1.  Registrar Nacimiento");
+            System.out.println("2.  Registrar Matrimonio");
+            System.out.println("3.  Registrar Defuncion");
+            System.out.println("4.  Emitir Certificado");
+            System.out.println("5.  Mostrar todas las Personas del sistema");
+            System.out.println("6.  Mostrar Personas por Sucursal");
+            System.out.println("7.  Mostrar todos los Nacimientos");
+            System.out.println("8.  Agregar Sucursal");
+            System.out.println("9.  Eliminar Sucursal");
+            System.out.println("10. Modificar Sucursal");
+            System.out.println("11. Buscar Sucursal");
+            System.out.println("12. Listar Sucursales");
             System.out.println("0. Salir");
             System.out.print("Seleccione una opcion: ");
 
@@ -167,6 +177,67 @@ public class Main {
                 case 7:
                     sistema.mostrarNacimientosGlobal();
                     break;
+                case 8:
+                    System.out.println("Ingrese id Sucursal:");
+                    idSucursal = Integer.parseInt(lector.readLine());
+                    System.out.println("Ingrese nombre de la sucursal:");
+                    nombreS = lector.readLine();
+                    System.out.println("Ingrese nombre de la ciudad asociada sucursal:");
+                    ciudad = lector.readLine();
+                    System.out.println("Ingrese nombre de la region asociada a la sucursal::");
+                    region = lector.readLine();
+                    
+                    operacionExitosa=sistema.agregarSucursal(idSucursal,nombreS,ciudad,region);
+                    if(operacionExitosa==true)
+                        System.out.println("[Sucursal agregada]");
+                    
+                    else
+                        System.out.println("[Sucursal ya existente]");
+                    
+                    break;
+                case 9:
+                    System.out.println("Ingrese id Sucursal a eliminar:");
+                    idSucursal = Integer.parseInt(lector.readLine());
+                    
+                    operacionExitosa=sistema.eliminarSucursal(idSucursal);
+                    
+                    if(operacionExitosa==true)
+                        System.out.println("[Sucursal eliminada]");
+                    
+                    else
+                        System.out.println("[Sucursal no encontrada]");
+                    
+                    break;
+                case 10:
+                    System.out.println("Ingrese id Sucursal a encontrar:");
+                    idSucursal = Integer.parseInt(lector.readLine());
+                    System.out.println("Ingrese el nuevo nombre de la sucursal:");
+                    nombreS = lector.readLine();
+                    System.out.println("Ingrese el nuevo nombre de la ciudad asociada sucursal:");
+                    ciudad = lector.readLine();
+                    System.out.println("Ingrese el nuevo nombre de la region asociada a la sucursal::");
+                    region = lector.readLine();
+                    
+                    operacionExitosa=sistema.modificarSucursal(idSucursal, nombreS, ciudad, region);
+                    if(operacionExitosa==true)
+                        System.out.println("[Sucursal modificada exitosamente]");
+                    
+                    else
+                        System.out.println("[Sucursal no encontrada]");
+                    
+                    break;
+                case 11:
+                    System.out.println("Ingrese id Sucursal a eliminar:");
+                    idSucursal = Integer.parseInt(lector.readLine());
+                    
+                    operacionExitosa=sistema.buscarSucursal(idSucursal);
+                    
+                    if(operacionExitosa==false)
+                        System.out.println("[Sucursal no encontrada]");
+                    break;
+                case 12:
+                    sistema.listarSucursales();
+                    break;    
                 case 0:
                     salir = true;
                     break;

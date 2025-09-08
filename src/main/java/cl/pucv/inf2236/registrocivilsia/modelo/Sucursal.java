@@ -79,4 +79,12 @@ public class Sucursal {
         System.out.println("Ciudad: "+ ciudad);
         System.out.println("Region: "+ region);
     }
+    public Persona getBuscarPersona(String rut){
+        for(int i=0; i<personasRegistradas.size();i++){
+            if(rut.equals(personasRegistradas.get(i).getRut())){
+                return personasRegistradas.get(i);
+            }
+        }
+        return null;
+    }
 }   

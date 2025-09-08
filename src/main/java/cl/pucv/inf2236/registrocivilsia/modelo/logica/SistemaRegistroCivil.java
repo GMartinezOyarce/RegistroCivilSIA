@@ -325,4 +325,20 @@ public class SistemaRegistroCivil {
             System.out.println("[No hay sucursales]");
         
     }
+    public boolean buscarMostrarPersonaEnSucursal(int idSucursal, String rut){
+        Persona target;
+        
+        for(int i=0; i<listaSucursales.size();i++){
+            if(listaSucursales.get(i).getIdSucursal()==idSucursal){
+                target=listaSucursales.get(i).getBuscarPersona(rut);
+                if(target != null){
+                    System.out.println("[Persona encontrada]");
+                    target.mostrar();
+                    System.out.println("");
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

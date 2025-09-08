@@ -29,6 +29,7 @@ public class Main {
         //variables que use (no sabia donde dejarlas) ATTE: cris
         int index = 0, año, mes, dia;
         boolean operacionExitosa;
+        String rut;
         
         //variables de Sucursal ATTE: el cris
         int idSucursal;
@@ -74,6 +75,7 @@ public class Main {
             System.out.println("10. Modificar Sucursal");
             System.out.println("11. Buscar Sucursal");
             System.out.println("12. Listar Sucursales");
+            System.out.println("13. Buscar persona en sucursal");
             System.out.println("0. Salir");
             System.out.print("Seleccione una opcion: ");
 
@@ -237,7 +239,17 @@ public class Main {
                     break;
                 case 12:
                     sistema.listarSucursales();
-                    break;    
+                    break;
+                case 13:
+                    System.out.println("Ingrese id Sucursal:");
+                    idSucursal = Integer.parseInt(lector.readLine());
+                    System.out.println("Ingrese rut de la persona buscada:");
+                    rut = lector.readLine();
+                    
+                    operacionExitosa=sistema.buscarMostrarPersonaEnSucursal(idSucursal, rut);
+                    if(operacionExitosa==false)
+                        System.out.println("[Persona o Sucursal no encontrada]");
+                    break;
                 case 0:
                     salir = true;
                     break;

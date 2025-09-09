@@ -18,6 +18,7 @@ import java.util.List;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
+import java.sql.*;
 
 /**
  *
@@ -36,6 +37,9 @@ public class SistemaRegistroCivil {
     private int idNacimiento = 0;
     private int idMatrimonio = 0;
     private int idDefuncion = 0;
+    
+    // url Base de datos
+    private String urlBD = "jdbc:sqlite:registrocivil.db";
     
     public SistemaRegistroCivil(){
         this.listaSucursales = new ArrayList<>();
@@ -58,38 +62,171 @@ public class SistemaRegistroCivil {
     
     
     public void cargarDatosDePrueba(){
-        //creo las sucursales en distintas ciudades
-        Sucursal sucValparaiso = new Sucursal(1, "Oficina Valparaiso", "Valparaiso", "Valparaiso");
-        Sucursal sucSanAntonio = new Sucursal(2, "Oficina San Antonio", "San Antonio", "Valparaiso");
-        
-        //añado las sucursales a el array listaSucursales
-        this.listaSucursales.add(sucValparaiso);
-        this.listaSucursales.add(sucSanAntonio);
-        
-        //creo las fechas de nacimiento de las personas
-        LocalDate fechaNacimientoGabriel = LocalDate.of(2005,12,12);
-        LocalDate fechaNacimientoRebeca = LocalDate.of(2004,02,04);
-        LocalDate fechaNacimientoAdazme = LocalDate.of(1999,01,22);
-        LocalDate fechaNacimientoFrecia = LocalDate.of(1980,02,19);
-        
-        //creo las personas
-        Persona gabriel = new Persona("22007130-8","Gabriel",fechaNacimientoGabriel,sucSanAntonio);
-        Persona rebeca = new Persona("21510429-k","Rebeca", fechaNacimientoRebeca,sucSanAntonio);
-        Persona adazme = new Persona("20358720-3","Adazme", fechaNacimientoAdazme,sucValparaiso);
-        Persona frecia = new Persona("19273189-9", "Frecia", fechaNacimientoFrecia, sucValparaiso);
-        
-        //agrego personas a Sucursales
-        sucValparaiso.agregarPersona(adazme);
-        sucValparaiso.agregarPersona(frecia);
-        
-        sucSanAntonio.agregarPersona(gabriel);
-        sucSanAntonio.agregarPersona(rebeca);
-        
-        // agrego a las personas al hashmap ordenado por rut
-        this.mapPersonas.put(gabriel.getRut(), gabriel);
-        this.mapPersonas.put(rebeca.getRut(), rebeca);
-        this.mapPersonas.put(adazme.getRut(), adazme);
-        this.mapPersonas.put(frecia.getRut(), frecia);
+        // ocupo el try-catch para poder asegurar la conexion
+        try(Connection conn = DriverManager.getConnection(urlBD);
+                  Statement query = conn.createStatement()){
+                  System.out.println("Conectado a la base de datos. Cargando Informacion....");
+            
+                  //---------Cargo datos de la tabla sucursales----------- 
+                  String sqlSucursales ="SELECT * FROM sucursales";
+                  ResultSet tablaSucursales = query.executeQuery(sqlSucursales);
+            
+                  while(tablaSucursales.next()){
+                           //Leo los datos por cada fila
+                           int id = tablaSucursales.getInt("id_sucursal");
+                           String nombre = tablaSucursales.getString("nombre");
+                           String ciudad = tablaSucursales.getString("ciudad");
+                           String region = tablaSucursales.getString("region");
+                
+                           //creo el objeto sucursal
+                           Sucursal sucursal = new Sucursal(id, nombre, ciudad, region);
+                
+                            this.listaSucursales.add(sucursal);
+                  }
+             
+                  // -------------Cargo datos de la tabla personas------------
+                  String sqlPersonas = "SELECT * FROM personas";
+                  ResultSet tablaPersonas = query.executeQuery(sqlPersonas);
+            
+                  while(tablaPersonas.next()){
+                           String rut = tablaPersonas.getString("rut");
+                           String nombre = tablaPersonas.getString("nombre");
+                           LocalDate fechaNacimiento = LocalDate.parse(tablaPersonas.getString("fecha_nacimiento"));
+                
+                           int sucursalId = tablaPersonas.getInt("sucursal_id");
+                    
+                           Sucursal sucursalAsignada = null;
+                           for(Sucursal s : this.listaSucursales){
+                                   if (s.getIdSucursal() == sucursalId){
+                                   sucursalAsignada = s;
+                                   }
+                           }
+                           // Creo el objeto Persona con la relacion establecida
+                
+                           Persona persona = new Persona(rut,nombre, fechaNacimiento, sucursalAsignada);
+                           persona.setEstadoCivil(tablaPersonas.getString("estado_civil"));
+                           persona.setEstaViva(tablaPersonas.getInt("esta_viva") == 1);
+                
+                           this.mapPersonas.put(rut, persona);
+                
+                           if(sucursalAsignada != null){
+                                    sucursalAsignada.agregarPersona(persona);                   
+                           }
+                  }
+                  // Cargo las relaciones entre las personas
+                  
+                  tablaPersonas = query.executeQuery(sqlPersonas);
+                  while(tablaPersonas.next()){
+                           String rutActual = tablaPersonas.getString("rut");
+                           String rutConyuge = tablaPersonas.getString("conyuge_rut");
+                           
+                           if(rutActual != null && rutConyuge != null){
+                                   Persona personaActual = this.mapPersonas.get(rutActual);
+                                   Persona conyuge = this.mapPersonas.get(rutConyuge);
+                                   
+                                   if(personaActual != null && conyuge != null){
+                                            personaActual.setConyuge(conyuge);
+                                   }                           
+                           }         
+                  }
+                  
+                  System.out.println("Personas Cargadas y relaciones establecidas");
+                  
+                  
+                  //Cargo nacimientos
+                  String sqlNacimiento = "SELECT * FROM nacimientos";
+                  ResultSet tablaNacimientos = query.executeQuery(sqlNacimiento);
+                  
+                  while(tablaNacimientos.next()){
+                          int idActa =tablaNacimientos.getInt("id_acta");
+                          LocalDate fechaNacimiento = LocalDate.parse(tablaNacimientos.getString("fecha_inscripcion"));
+                          String lugarNacimiento =tablaNacimientos.getString("lugar_nacimiento");
+                          String inscritoRut = tablaNacimientos.getString("inscrito_rut");
+                          String progenitor1Rut = tablaNacimientos.getString("progenitor1_rut");
+                          String progenitor2Rut = tablaNacimientos.getString("progenitor2_rut");
+                          int sucursalId = tablaNacimientos.getInt("sucursal_id");
+                          
+                          Persona inscrito = this.mapPersonas.get(inscritoRut);
+                          Persona progenitor1 = this.mapPersonas.get(progenitor1Rut);
+                          Persona progenitor2 = this.mapPersonas.get(progenitor2Rut);
+                          
+                          Sucursal sucursalAsignada = null;
+                          for(Sucursal s: this.listaSucursales){
+                                   if(s.getIdSucursal() == sucursalId){
+                                            sucursalAsignada = s;
+                                            break;
+                                   }
+                          }
+                          
+                          if(inscrito != null && progenitor1 != null && progenitor2 != null && sucursalAsignada != null){
+                                   Nacimiento nacimiento = new Nacimiento(idActa, fechaNacimiento, lugarNacimiento, inscrito, progenitor1, progenitor2, sucursalAsignada);
+                                   this.listaNacimiento.add(nacimiento);
+                          }       
+                  
+                  }
+                  
+                  //Cargo Matrimonios
+                  String sqlMatrimonios = "SELECT * FROM matrimonios";
+                  ResultSet tablaMatrimonios = query.executeQuery(sqlMatrimonios);
+    
+                  while (tablaMatrimonios.next()) {
+                           int idMatrimonio = tablaMatrimonios.getInt("id_matrimonio");
+                           String rut1 = tablaMatrimonios.getString("contrayente1_rut");
+                           String rut2 = tablaMatrimonios.getString("contrayente2_rut");
+                           int sucursalId = tablaMatrimonios.getInt("sucursal_id");
+    
+                           // 2. BUSCA los objetos Persona y Sucursal correspondientes en las listas que ya cargamos
+                           Persona p1 = this.mapPersonas.get(rut1);
+                           Persona p2 = this.mapPersonas.get(rut2);
+                           Sucursal sucursalAsignada = null;
+                          
+                           for(Sucursal s: this.listaSucursales){
+                                   if(s.getIdSucursal() == sucursalId){
+                                            sucursalAsignada = s;
+                                            break;
+                                   }
+                          }
+                          if (p1 != null && p2 != null && sucursalAsignada != null) {
+                                   Matrimonio mat = new Matrimonio(idMatrimonio, p1, p2, sucursalAsignada); 
+                                   this.listaMatrimonio.add(mat);
+                           }       
+                  }
+                  
+                  //Cargo Defunciones
+                  String sqlDefunciones = "SELECT * FROM defunciones";
+                  ResultSet tablaDefunciones = query.executeQuery(sqlDefunciones);
+
+                  while (tablaDefunciones.next()) {
+                           // 1. Lee los datos del acta de defunción
+                           int idActa = tablaDefunciones.getInt("id_acta");
+                           LocalDate fecha = LocalDate.parse(tablaDefunciones.getString("fecha_defuncion"));
+                           String causa = tablaDefunciones.getString("causa");
+                           String fallecidoRut = tablaDefunciones.getString("fallecido_rut");
+                           int sucursalId = tablaDefunciones.getInt("sucursal_id");
+    
+                           // 2. BUSCA los objetos Persona y Sucursal en tus colecciones en memoria
+                           Persona fallecido = this.mapPersonas.get(fallecidoRut);
+                           Sucursal sucursalAsignada = null;
+                          
+                           for(Sucursal s: this.listaSucursales){
+                                   if(s.getIdSucursal() == sucursalId){
+                                            sucursalAsignada = s;
+                                            break;
+                                   }        
+                          }
+    
+                           // 3. Si todos los objetos relacionados existen, crea el objeto Defuncion
+                           if (fallecido != null && sucursalAsignada != null) {
+                           Defuncion def = new Defuncion(idActa, fecha, causa, fallecido, sucursalAsignada); 
+                            this.listaDefuncion.add(def);
+                           }
+                  }
+                  
+                  
+        } catch (SQLException e){
+            System.out.println("Error al cargar la base de datos: " + e.getMessage());
+        }
+           
     }
     public void mostrarPersonasGlobal(){
         int num=0;

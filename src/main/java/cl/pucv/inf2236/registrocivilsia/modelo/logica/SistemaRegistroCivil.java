@@ -228,6 +228,120 @@ public class SistemaRegistroCivil {
         }
            
     }
+    
+    public void guardarDatosEnBd(){
+         Connection conn = null; //  se declara asi para que fuera del try sea accesible
+         
+         try{   
+                  // Conexxion y preparacion
+                  conn = DriverManager.getConnection(this.urlBD);
+                  conn.setAutoCommit(false); // esto lo ocupo para poder verificar cualquier fallo y hacer un rollback
+                  System.out.println("Conectado a la BD. Iniciando proceso de guardado . . .");
+                  
+                  //Limpio las tablas
+                  try (Statement query = conn.createStatement()){
+                          query.execute("DELETE  FROM matrimonios");
+                          query.execute("DELETE  FROM nacimientos");
+                          query.execute("DELETE  FROM defunciones");
+                          query.execute("DELETE  FROM personas");
+                          query.execute("DELETE  FROM sucursales");
+                 }
+                 
+                 // INSERTO LOS DATOS EN MEMORIA (en el mismo orden en que los cargue)
+                 //Guardo sucursales
+                  String sqlSucursales = "INSERT INTO sucursales(id_sucursal, nombre, ciudad, region) VALUES(?,?,?,?)";
+                  try(PreparedStatement query = conn.prepareStatement(sqlSucursales)){
+                          for(Sucursal s : this.listaSucursales){
+                                   query.setInt(1,s.getIdSucursal());
+                                   query.setString(2, s.getNombre());
+                                   query.setString(3, s.getCiudad());
+                                   query.setString(4, s.getRegion());
+                                   query.executeUpdate();
+                          }
+                 }
+                  
+                 // Guardo personas
+                 String sqlPersonas = "INSERT INTO personas(rut, nombre, fecha_nacimiento, estado_civil, esta_viva, conyuge_rut, sucursal_id) VALUES(?,?,?,?,?,?,?)";
+                  try(PreparedStatement query = conn.prepareStatement(sqlPersonas)){
+                          for(Persona p : this.mapPersonas.values()){
+                                   query.setString(1, p.getRut());
+                                   query.setString(2, p.getNombre());
+                                   query.setString(3,  p.getFechaNacimiento().toString());
+                                   query.setString(4, p.getEstadoCivil());
+                                   query.setInt(5, p.getEstaViva() ? 1: 0);
+                                   query.setString(6, (p.getConyuge() != null) ? p.getConyuge().getRut() : null);
+                                   query.setInt(7, p.getSucursal().getIdSucursal());
+                                   query.executeUpdate();
+                           }
+                  }
+                  
+                  //Guardo matrimonios
+                  String sqlMatrimonios = "INSERT INTO matrimonios( fecha_matrimonio, contrayente1_rut, contrayente2_rut, sucursal_id) VALUES(?,?,?,?)";
+                  try(PreparedStatement query = conn.prepareStatement(sqlMatrimonios)){
+                          for(Matrimonio m: this.listaMatrimonio){
+                                   query.setString(1, m.getFechaMatrimonio().toString());
+                                   query.setString(2, m.getConyuge1().getRut());
+                                   query.setString(3, m.getConyuge2().getRut());
+                                   query.setInt(4, m.getSucursal().getIdSucursal());
+                                   query.executeUpdate();
+                          }
+                  }
+                  
+                  //Guardo Nacimientos
+                  String sqlNacimientos = "INSERT INTO nacimientos( fecha_inscripcion, lugar_nacimiento, inscrito_rut, progenitor1_rut, progenitor2_rut, sucursal_id) Values(?,?,?,?,?,?)";
+                  try(PreparedStatement query = conn.prepareStatement(sqlNacimientos)){
+                           for(Nacimiento n: this.listaNacimiento){
+                                   query.setString(1, n.getFechaInscripcion().toString());
+                                   query.setString(2, n.getLugarNacimiento());
+                                   query.setString(3, n.getInscrito().getRut());
+                                   query.setString(4, n.getProgenitor1().getRut());
+                                   query.setString(5, n.getProgenitor2().getRut());
+                                   query.setInt(6, n.getSucursalAsignada().getIdSucursal());
+                                   query.executeUpdate();
+                           } 
+                  }
+                  
+                  // Guardo Defunciones
+                  String sqlDefunciones = "INSERT INTO defunciones(fecha_defuncion, causa, fallecido_rut, sucursal_id) VALUES(?,?,?,?)";
+                  try(PreparedStatement query  = conn.prepareStatement(sqlDefunciones)){
+                           for(Defuncion d: this.listaDefuncion){
+                                   query.setString(1, d.getFechaDefuncion().toString());
+                                   query.setString(2, d.getCausa());
+                                   query.setString(3, d.getFallecido().getRut());
+                                   query.setInt(4, d.getSucursal().getIdSucursal()); 
+                                   query.executeUpdate();
+                           }
+                  }
+                  
+                  
+                  System.out.println("Nuevos datos insertados . . .");
+                  
+                  // confirmo la actualizacion
+                  conn.commit();
+                  System.out.println("Datos guardados exitosamente en la base de datos!");
+
+        } catch (SQLException e){
+                  System.out.println("¡ERROR! Ocurrio un problema al guardar: " + e.getMessage());
+                  
+                  //cancelo la actualizacion
+                  try{
+                           if(conn != null){
+                                   conn.rollback();
+                                   System.out.println("Operacion Cancelada, la base de datos a sido restaurada a su version anterior");
+                           }
+                  }catch(SQLException ex){
+                                   System.out.println("Error al intentar cancelar la operacion");
+                  }
+        } finally{
+                  try{
+                           if (conn != null){
+                                    conn.close();
+                           }
+                  } catch(SQLException ex){
+                           System.out.println(ex.getMessage());
+                  }
+         }
+    }
     public void mostrarPersonasGlobal(){
         int num=0;
         System.out.println("");
@@ -262,7 +376,7 @@ public class SistemaRegistroCivil {
            }
         
            
-           this.idNacimiento++;
+           //this.idNacimiento++;
            Nacimiento nuevoNac = new Nacimiento(this.idNacimiento,fechaNacimiento, lugarNacimiento, nuevaPer, progenitor1, progenitor2, nuevaPer.getSucursal());
            
            
@@ -322,8 +436,8 @@ public class SistemaRegistroCivil {
             return;
         }
         
-        idMatrimonio++;
-        Matrimonio nuevoMatri = new Matrimonio(idMatrimonio, conyuge1, conyuge2, sucursal);
+        //idMatrimonio++;
+        Matrimonio nuevoMatri = new Matrimonio(conyuge1, conyuge2, sucursal);
         
         conyuge1.setConyuge(conyuge2);
         conyuge1.setEstadoCivil("");
@@ -351,8 +465,8 @@ public class SistemaRegistroCivil {
             return;
         }
         
-        this.idDefuncion++;
-        Defuncion nuevoDefun = new Defuncion(this.idDefuncion, fechaDefuncion, Causa, fallecido, sucursal);
+        //this.idDefuncion++;
+        Defuncion nuevoDefun = new Defuncion(fechaDefuncion, Causa, fallecido, sucursal);
            
         System.out.println("[Defuncion registrada]");
         nuevoDefun.mostrar();

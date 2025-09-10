@@ -27,6 +27,12 @@ public class Matrimonio {
         this.sucursal = sucursal;
         this.fechaMatrimonio = LocalDate.now(); 
     }
+    public Matrimonio(Persona conyuge1, Persona conyuge2, Sucursal sucursal){
+        this.conyuge1 = conyuge1;
+        this.conyuge2 = conyuge2;
+        this.sucursal = sucursal;
+        this.fechaMatrimonio = LocalDate.now(); 
+    }
     
 
     

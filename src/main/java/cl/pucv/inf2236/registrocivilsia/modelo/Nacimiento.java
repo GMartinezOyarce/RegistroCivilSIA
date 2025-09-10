@@ -32,6 +32,15 @@ public class Nacimiento {
         this.fechaNacimiento = fechaNacimiento;
         this.fechaInscripcion = LocalDate.now();
     }
+    public Nacimiento(LocalDate fechaNacimiento,String lugarNacimiento, Persona inscrito, Persona progenitor1, Persona progenitor2, Sucursal sucursalAsignada) {
+        this.lugarNacimiento = lugarNacimiento;
+        this.inscrito = inscrito;
+        this.progenitor1 = progenitor1;
+        this.progenitor2 = progenitor2;
+        this.sucursalAsignada = sucursalAsignada;
+        this.fechaNacimiento = fechaNacimiento;
+        this.fechaInscripcion = LocalDate.now();
+    }
     
     public void mostrar(){
         System.out.println("Id acta: " + idActa);

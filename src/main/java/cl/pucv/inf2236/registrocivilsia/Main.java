@@ -76,7 +76,7 @@ public class Main {
             System.out.println("11. Buscar Sucursal");
             System.out.println("12. Listar Sucursales");
             System.out.println("13. Buscar persona en sucursal");
-            System.out.println("0. Salir");
+            System.out.println("0. Guardar y salir");
             System.out.print("Seleccione una opcion: ");
 
             int opcion = Integer.parseInt(lector.readLine());
@@ -251,6 +251,7 @@ public class Main {
                         System.out.println("[Persona o Sucursal no encontrada]");
                     break;
                 case 0:
+                    sistema.guardarDatosEnBd();
                     salir = true;
                     break;
                 default:
@@ -258,6 +259,7 @@ public class Main {
                     break;
             }
         }
+        
         System.out.println("¡Hasta luego!");
     }
     

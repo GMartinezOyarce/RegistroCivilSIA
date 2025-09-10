@@ -24,7 +24,12 @@ public class Defuncion {
         this.fallecido = fallecido;
         this.sucursal = sucursal;
     }
-    
+    public Defuncion(LocalDate fecha, String causa, Persona fallecido, Sucursal sucursal) {       
+        this.fechaDefuncion = fecha;
+        this.causa = causa;
+        this.fallecido = fallecido;
+        this.sucursal = sucursal;
+    }
     
     //getters
     public int getIdActa(){

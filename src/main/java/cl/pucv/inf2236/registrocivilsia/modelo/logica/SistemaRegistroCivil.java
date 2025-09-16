@@ -592,4 +592,17 @@ public class SistemaRegistroCivil {
         }
         return false;
     }
+    public String[][] getSucursalesForVista(){
+        String [][] datos = new String [listaSucursales.size()][4];
+        Sucursal actualS;
+        for(int i=0; i<listaSucursales.size();i++){
+            actualS = listaSucursales.get(i);
+            
+            datos[i][0] = String.valueOf(actualS.getIdSucursal());
+            datos[i][1] = actualS.getNombre();
+            datos[i][2] = actualS.getCiudad();
+            datos[i][3] = actualS.getRegion();
+        }
+        return datos;
+    }
 }

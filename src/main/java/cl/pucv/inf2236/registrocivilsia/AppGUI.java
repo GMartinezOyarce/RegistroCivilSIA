@@ -14,9 +14,15 @@ import javax.swing.JFrame;
 import javax.swing.JButton;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
+import cl.pucv.inf2236.registrocivilsia.modelo.logica.SistemaRegistroCivil;
+import java.time.LocalDate;
+
 
 public class AppGUI {
     public static void main(String[] args) {
+        final SistemaRegistroCivil sistema = new SistemaRegistroCivil();
+        sistema.cargarDatosDePrueba();
+        
         SwingUtilities.invokeLater(() ->{
             JFrame ventana = new JFrame ("Registro Civil");
             ventana.setSize(400,300); //tamaño
@@ -132,7 +138,16 @@ public class AppGUI {
             ventana.add(btnLisSuc); 
             
             btnLisSuc.addActionListener(e -> {
-                javax.swing.JOptionPane.showMessageDialog(ventana, "Aqui debe mostrar las sucursales");
+                javax.swing.JFrame winSurList = new javax.swing.JFrame("Sucursales");
+                
+                winSurList.setSize(380,300);
+                winSurList.setVisible(true);
+                
+                //Tabla
+                String[] columnas = {"ID", "Nombre", "Ciudad", "Region"};
+                String[][] datos = sistema.getSucursalesForVista();
+                javax.swing.JTable tablaSurList = new javax.swing.JTable(datos,columnas);
+                winSurList.add(new javax.swing.JScrollPane(tablaSurList));
             });
             
             //BOTON BUSCAR PERSONA EN SUCURSAL

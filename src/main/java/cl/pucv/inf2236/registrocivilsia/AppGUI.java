@@ -88,12 +88,21 @@ public class AppGUI {
             });
             
             //BOTON MOSTRAR TODOS LOS NACIMIENTOS
-            JButton btnMosTodNac = new JButton("Mostrar todos los nacimientos"); 
+            JButton btnMosTodNac = new JButton("Listar nacimientos"); 
             btnMosTodNac.setPreferredSize(new java.awt.Dimension(200,40));
             ventana.add(btnMosTodNac); 
             
             btnMosTodNac.addActionListener(e -> {
-                javax.swing.JOptionPane.showMessageDialog(ventana, "Aqui debe mostrar todos los nacimientos");
+                javax.swing.JFrame winNacList = new javax.swing.JFrame("Nacimientos");
+                
+                winNacList.setSize(380,300);
+                winNacList.setVisible(true);
+                
+                //Tabla
+                String[] columnas = {"ID", "Fecha Nacimiento", "Fecha Inscripcion", "Lugar Nacimiento", "ID Sucursal " , "Rut Inscrito", "Rut Progenitor[1]", "Rut Progenitor[2]"};
+                String[][] datos = sistema.getNacimientosForVista();
+                javax.swing.JTable tablaNacList = new javax.swing.JTable(datos,columnas);
+                winNacList.add(new javax.swing.JScrollPane(tablaNacList));
             });
             
             //BOTON AGREGAR SUCURSAL

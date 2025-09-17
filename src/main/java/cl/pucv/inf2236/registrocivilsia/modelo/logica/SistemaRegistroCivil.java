@@ -605,4 +605,27 @@ public class SistemaRegistroCivil {
         }
         return datos;
     }
+    public String[][] getNacimientosForVista(){
+        String [][] datos = new String [listaNacimiento.size()][8];
+        Nacimiento actualN;
+        for(int i=0; i<listaNacimiento.size();i++){
+            actualN = listaNacimiento.get(i);
+            
+            datos[i][0] = String.valueOf(actualN.getIdActa());
+            datos[i][1] = actualN.getFechaNacimiento().toString();
+            datos[i][2] = actualN.getFechaInscripcion().toString();
+            datos[i][3] = actualN.getLugarNacimiento();
+            datos[i][4] = String.valueOf(actualN.getSucursalAsignada().getIdSucursal());
+            datos[i][5] = actualN.getInscrito().getRut();
+            if(actualN.getProgenitor1() != null)
+                datos[i][6] = actualN.getProgenitor1().getRut();
+            else
+                datos[i][6] = "[desconocido]";
+            if(actualN.getProgenitor2() != null)
+                datos[i][7] = actualN.getProgenitor2().getRut();
+            else
+                datos[i][7] = "[desconocido]";
+        }
+        return datos;
+    }
 }

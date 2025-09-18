@@ -352,7 +352,7 @@ public class SistemaRegistroCivil {
             num++;
         }
     }
-    public void registrarNacimiento(int index, LocalDate fechaNacimiento, String lugarNacimiento,String rutProgenitor1, String rutProgenitor2, String rutInscrito, String nombre){
+    public boolean registrarNacimiento(int index, LocalDate fechaNacimiento, String lugarNacimiento,String rutProgenitor1, String rutProgenitor2, String rutInscrito, String nombre){
            Persona nuevaPer = new Persona(rutInscrito,nombre,fechaNacimiento,listaSucursales.get(index));
            
            Persona progenitor1, progenitor2;
@@ -368,11 +368,11 @@ public class SistemaRegistroCivil {
            */
            if(progenitor1==null){
             System.out.println("Primer progenitor no encontrado");
-            return;
+            return false;
            }
            if(progenitor2==null){
             System.out.println("Segundo progenitor no encontrado");
-            return;
+            return false;
            }
         
            
@@ -391,7 +391,7 @@ public class SistemaRegistroCivil {
            this.listaSucursales.get(index).agregarPersona(nuevaPer);
            this.listaNacimiento.add(nuevoNac);
            mapPersonas.put(rutInscrito, nuevaPer);
-           
+           return true;
            
     }
     public void mostrarNacimientosGlobal(){

@@ -42,7 +42,9 @@ public class Sucursal {
     public String getRegion(){
         return this.region;
     }
-    
+    public List<Persona> getPersonasRegistradas(){
+        return this.personasRegistradas;
+    }
     //setters
     public void setIdSucursal(int idSucursal){
         this.idSucursal = idSucursal;

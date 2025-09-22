@@ -12,10 +12,13 @@ package cl.pucv.inf2236.registrocivilsia;
 import javax.swing.SwingUtilities;
 import javax.swing.JFrame;
 import javax.swing.JButton;
+import cl.pucv.inf2236.registrocivilsia.modelo.Sucursal;
+import javax.swing.JOptionPane;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import cl.pucv.inf2236.registrocivilsia.modelo.logica.SistemaRegistroCivil;
 import java.time.LocalDate;
+import cl.pucv.inf2236.registrocivilsia.modelo.Persona;
 
 
 public class AppGUI {
@@ -212,9 +215,14 @@ public class AppGUI {
                         return;
                     }
                     
-                    sistema.registrarMatrimonio(indexSucursal, rutConyuge1, rutConyuge2);
-                    javax.swing.JOptionPane.showMessageDialog(ventanaMatrimonio, "Matrimonio registrado exitosamente");
-                    ventanaMatrimonio.dispose();
+                    boolean resultado=sistema.registrarMatrimonio(indexSucursal, rutConyuge1, rutConyuge2);
+                    if(resultado == true){
+                        javax.swing.JOptionPane.showMessageDialog(ventanaMatrimonio, "Matrimonio registrado exitosamente");
+                        ventanaMatrimonio.dispose();
+                    }
+                    else{
+                        javax.swing.JOptionPane.showMessageDialog(ventanaMatrimonio, "Matrimonio no registrado, posible causa: conyuge/s no encontrado/s");
+                    }
                 });
                 
                 // Acción del botón cancelar
@@ -288,9 +296,14 @@ public class AppGUI {
                             return;
                         }
                         
-                        sistema.registrarDefuncion(indexSucursal, fechaDef, causa, rutFallecido);
-                        javax.swing.JOptionPane.showMessageDialog(ventanaDefuncion, "Defunción registrada exitosamente");
-                        ventanaDefuncion.dispose();
+                        boolean resultado=sistema.registrarDefuncion(indexSucursal, fechaDef, causa, rutFallecido);
+                        if(resultado==true){
+                            javax.swing.JOptionPane.showMessageDialog(ventanaDefuncion, "Defunción registrada exitosamente");
+                            ventanaDefuncion.dispose();
+                        }
+                        else{
+                            javax.swing.JOptionPane.showMessageDialog(ventanaDefuncion, "Defunción no registrada, posible causa: persona no encontrada");
+                        }
                     } catch (Exception ex) {
                         javax.swing.JOptionPane.showMessageDialog(ventanaDefuncion, "Error en el formato de fecha. Use YYYY-MM-DD");
                     }
@@ -662,9 +675,16 @@ public class AppGUI {
                 if(input != null && !input.isEmpty()) {
                     try {
                         int idSucursal = Integer.parseInt(input);
-                        boolean resultado = sistema.buscarSucursal(idSucursal);
-                        if(!resultado) {
+                        Sucursal suc =sistema.getSucursalForVista(idSucursal);
+                        if(suc == null) {
                             javax.swing.JOptionPane.showMessageDialog(ventana, "No se encontró una sucursal con ese ID");
+                        }
+                        else{
+                            String info= "ID: " + suc.getIdSucursal() + "\n" +
+                                         "Nombre: " + suc.getNombre() + "\n" +
+                                         "Ciudad: " + suc.getCiudad() + "\n" +
+                                         "Región: " + suc.getRegion();
+                            JOptionPane.showMessageDialog(ventana,info,"Sucursal encontrada", JOptionPane.INFORMATION_MESSAGE);
                         }
                     } catch (NumberFormatException ex) {
                         javax.swing.JOptionPane.showMessageDialog(ventana, "El ID debe ser un número entero");
@@ -702,9 +722,15 @@ public class AppGUI {
                         int idSucursal = Integer.parseInt(inputId);
                         String inputRut = javax.swing.JOptionPane.showInputDialog(ventana, "Ingrese el RUT de la persona:");
                         if(inputRut != null && !inputRut.isEmpty()) {
-                            boolean resultado = sistema.buscarMostrarPersonaEnSucursal(idSucursal, inputRut);
-                            if(!resultado) {
+                            Persona per = sistema.buscarPersonaEnSucursalForVista(idSucursal, inputRut);
+                            if(per == null) {
                                 javax.swing.JOptionPane.showMessageDialog(ventana, "No se encontró la persona en esa sucursal");
+                            }
+                            else{
+                                String info = "RUT: "+ per.getRut()+ "\n"+
+                                              "Nombre: "+ per.getNombre()+ "\n"+
+                                              "Fecha nacimiento: "+ per.getFechaNacimiento();
+                            JOptionPane.showMessageDialog(ventana,info,"Persona encontrada", JOptionPane.INFORMATION_MESSAGE);
                             }
                         }
                     } catch (NumberFormatException ex) {

@@ -409,7 +409,7 @@ public class SistemaRegistroCivil {
     }
     
     
-    public void registrarMatrimonio(int index, String rutConyuge1, String rutConyuge2){
+    public boolean registrarMatrimonio(int index, String rutConyuge1, String rutConyuge2){
         Persona conyuge1, conyuge2;
         Sucursal sucursal;
         sucursal = listaSucursales.get(index);
@@ -429,11 +429,11 @@ public class SistemaRegistroCivil {
         */
         if(conyuge1==null){
             System.out.println("Primer conyuge no encontrado");
-            return;
+            return false;
         }
         if(conyuge2==null){
             System.out.println("Segundo conyuge no encontrado");
-            return;
+            return false;
         }
         
         //idMatrimonio++;
@@ -451,9 +451,10 @@ public class SistemaRegistroCivil {
         System.out.println("");
            
         this.listaMatrimonio.add(nuevoMatri);
+        return true;
     }
 
-    public void registrarDefuncion(int index, LocalDate fechaDefuncion, String Causa, String rutFallecido) {
+    public boolean registrarDefuncion(int index, LocalDate fechaDefuncion, String Causa, String rutFallecido) {
         Persona fallecido;
         Sucursal sucursal;
         sucursal = listaSucursales.get(index);
@@ -462,7 +463,7 @@ public class SistemaRegistroCivil {
         
         if(fallecido==null){
             System.out.println("Persona no encontrada");
-            return;
+            return false;
         }
         
         //this.idDefuncion++;
@@ -477,6 +478,7 @@ public class SistemaRegistroCivil {
         }
         fallecido.setEstaViva();
         listaDefuncion.add(nuevoDefun);
+        return true;
     }
     
     public Persona busquedaPersona(String rutPers){
@@ -627,5 +629,26 @@ public class SistemaRegistroCivil {
                 datos[i][7] = "[desconocido]";
         }
         return datos;
+    }
+    public Sucursal getSucursalForVista(int id){
+        for(Sucursal s: listaSucursales){
+            if(s.getIdSucursal()==id){
+                return s;
+            }
+        }
+        return null;
+    }
+    public Persona buscarPersonaEnSucursalForVista(int idSucursal, String rut){
+        Persona target;
+        
+        for(int i=0; i<listaSucursales.size();i++){
+            if(listaSucursales.get(i).getIdSucursal()==idSucursal){
+                target=listaSucursales.get(i).getBuscarPersona(rut);
+                if(target != null){
+                    return target;
+                }
+            }
+        }
+        return null;
     }
 }

@@ -55,7 +55,7 @@ public class Persona {
         return this.sucursalAsignada;
     }
     
-     //getters 
+     //setters 
     public void setRut(String rut){
         this.rut = rut;
     }

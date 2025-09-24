@@ -11,6 +11,7 @@ import cl.pucv.inf2236.registrocivilsia.modelo.Matrimonio;
 import cl.pucv.inf2236.registrocivilsia.modelo.Persona;
 import cl.pucv.inf2236.registrocivilsia.modelo.Sucursal;
 import cl.pucv.inf2236.registrocivilsia.modelo.Nacimiento;
+import java.util.Iterator;
 
 
 import java.util.ArrayList;
@@ -651,4 +652,49 @@ public class SistemaRegistroCivil {
         }
         return null;
     }
+    public boolean eliminarPersonaPorSucursal(String rut, int idSur){
+        for(int i=0; i<listaSucursales.size();i++){
+            if(idSur == listaSucursales.get(i).getIdSucursal()){
+                for(int j=0; j<listaSucursales.get(i).getPersonasRegistradas().size(); j++){
+                    if(listaSucursales.get(i).getPersonasRegistradas().get(j).getRut().equals(rut)){
+                        listaSucursales.get(i).getPersonasRegistradas().remove(j);
+                        mapPersonas.remove(rut);
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    public boolean modificarPersonaPorSucursal(String rut, String nombre, LocalDate fechaNac, String rutConyuge, String estadoCivil, boolean estaViva, int indexSucTar, int indexNewSuc){
+        
+        for(int j=0; j<listaSucursales.get(indexSucTar).getPersonasRegistradas().size(); j++){
+            if(listaSucursales.get(indexSucTar).getPersonasRegistradas().get(j).getRut().equals(rut)){
+                Persona p=listaSucursales.get(indexSucTar).getPersonasRegistradas().get(j);
+                        
+                p.setEstaViva(estaViva);
+                p.setEstadoCivil(estadoCivil);
+                p.setFechaNacimiento(fechaNac);
+                p.setNombre(nombre);
+                if(mapPersonas.containsKey(rut)==true){
+                    p.setConyuge(mapPersonas.get(rut));
+                }
+                else{
+                    p.setConyuge(null);
+                }
+                p.setSucursal(listaSucursales.get(indexNewSuc));
+                        
+                if (indexSucTar != indexNewSuc) {
+                    listaSucursales.get(indexSucTar).getPersonasRegistradas().remove(p);
+                    listaSucursales.get(indexNewSuc).getPersonasRegistradas().add(p);
+                }
+
+                
+                
+                return true;
+            }
+        }
+                
+        return false;
+    } 
 }

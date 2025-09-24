@@ -9,16 +9,15 @@ package cl.pucv.inf2236.registrocivilsia;
  * @author crist
  */
 
-import javax.swing.SwingUtilities;
-import javax.swing.JFrame;
-import javax.swing.JButton;
+
 import cl.pucv.inf2236.registrocivilsia.modelo.Sucursal;
-import javax.swing.JOptionPane;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import cl.pucv.inf2236.registrocivilsia.modelo.logica.SistemaRegistroCivil;
 import java.time.LocalDate;
 import cl.pucv.inf2236.registrocivilsia.modelo.Persona;
+import javax.swing.*;
+
 
 
 public class AppGUI {
@@ -516,6 +515,155 @@ public class AppGUI {
                 ventanaSeleccionSucursal.setVisible(true);
             });
             
+            //BOTON ELIMINAR PERSONAS POR SUCURSAL
+            JButton btnEliPerSur = new JButton("Eliminar personas por sucursal"); 
+            btnEliPerSur.setPreferredSize(new java.awt.Dimension(200,40));
+            panelPrincipal.add(btnEliPerSur); 
+            btnEliPerSur.addActionListener(e -> {
+                String inputId = javax.swing.JOptionPane.showInputDialog(ventana, "Ingresar ID de la sucursal asociada a la persona:");
+                if(inputId != null && !inputId.isEmpty()){ 
+                    try {
+                        int idSur = Integer.parseInt(inputId);
+                        String inputRut = javax.swing.JOptionPane.showInputDialog(ventana, "Ingrese el RUT de la persona a eliminar:");
+                        if(inputRut != null && !inputRut.isEmpty()) {
+                            
+                            String rut = inputRut;
+                            boolean resultado = sistema.eliminarPersonaPorSucursal(rut, idSur);
+                            if(resultado) {
+                                javax.swing.JOptionPane.showMessageDialog(ventana, "Persona eliminada exitosamente");
+                            } else {
+                                javax.swing.JOptionPane.showMessageDialog(ventana, "Operacion fallida, Rut no encontrado");
+                            }
+                           
+                        }
+                    } catch (NumberFormatException ex) {
+                        javax.swing.JOptionPane.showMessageDialog(ventana, "El ID debe ser un número entero");
+                    }
+                }
+            });
+            
+            //BOTON MODIFICAR NACIMIENTOS
+            JButton btnModNac = new JButton("Modificar persona"); 
+            btnModNac.setPreferredSize(new java.awt.Dimension(200,40));
+            panelPrincipal.add(btnModNac); 
+            btnModNac.addActionListener(e -> {
+                // Crear ventana de formulario de persona
+                javax.swing.JFrame ventanaNacimiento = new javax.swing.JFrame("Modificar persona");
+                ventanaNacimiento.setSize(500, 600);
+                ventanaNacimiento.setLocationRelativeTo(ventana);
+                ventanaNacimiento.setLayout(new java.awt.GridBagLayout());
+                java.awt.GridBagConstraints gbc = new java.awt.GridBagConstraints();
+                
+                // Campos del formulario
+                
+                javax.swing.JLabel iblSucursalTarget = new javax.swing.JLabel("Sucursal de la persona a modificar:");
+                javax.swing.JComboBox<String> cmbSucursalTarget = new javax.swing.JComboBox<>();
+                for(int i = 0; i < sistema.getListaSucursales().size(); i++) {
+                    cmbSucursalTarget.addItem(sistema.getListaSucursales().get(i).getNombre() + " (ID: " + sistema.getListaSucursales().get(i).getIdSucursal() + ")");
+                }
+                
+                javax.swing.JLabel lblRut = new javax.swing.JLabel("RUT a modificar:");
+                javax.swing.JTextField txtRut = new javax.swing.JTextField(15);
+                
+                javax.swing.JLabel lblNombre = new javax.swing.JLabel("Nuevo nombre:");
+                javax.swing.JTextField txtNombre = new javax.swing.JTextField(15);
+                
+                javax.swing.JLabel lblFechaNac = new javax.swing.JLabel("Nueva fecha de Nacimiento (YYYY-MM-DD):");
+                javax.swing.JTextField txtFechaNac = new javax.swing.JTextField(15);
+                
+                javax.swing.JLabel lblEstadoCivil = new javax.swing.JLabel("Nuevo estado civil:");
+                javax.swing.JTextField txtEstadoCivil = new javax.swing.JTextField(15);
+                
+                javax.swing.JLabel lblRutConyuge = new javax.swing.JLabel("Nuevo RUT de conyuge (Dejar vacio si no existe):");
+                javax.swing.JTextField txtRutConyuge = new javax.swing.JTextField(15);
+                
+                javax.swing.JLabel lblNewSucursal = new javax.swing.JLabel("Nueva Sucursal:");
+                javax.swing.JComboBox<String> cmbNewSucursal = new javax.swing.JComboBox<>();
+                for(int i = 0; i < sistema.getListaSucursales().size(); i++) {
+                    cmbNewSucursal.addItem(sistema.getListaSucursales().get(i).getNombre() + " (ID: " + sistema.getListaSucursales().get(i).getIdSucursal() + ")");
+                }
+                
+                JLabel lblVivo = new JLabel("¿Está viva?");
+                JCheckBox chkVivo = new JCheckBox("Sí", true);
+                
+                javax.swing.JButton btnModificar = new javax.swing.JButton("Modificar");
+                javax.swing.JButton btnCancelar = new javax.swing.JButton("Cancelar");
+                
+                // Posicionar elementos
+                gbc.insets = new java.awt.Insets(5, 5, 5, 5);
+                gbc.anchor = java.awt.GridBagConstraints.WEST;
+                
+                gbc.gridx = 0; gbc.gridy = 0; ventanaNacimiento.add(lblRut, gbc);
+                gbc.gridx = 1; ventanaNacimiento.add(txtRut, gbc);
+                
+                gbc.gridx = 0; gbc.gridy = 1; ventanaNacimiento.add(iblSucursalTarget, gbc);
+                gbc.gridx = 1; ventanaNacimiento.add(cmbSucursalTarget, gbc);
+                
+                gbc.gridx = 0; gbc.gridy = 2; ventanaNacimiento.add(lblFechaNac, gbc);
+                gbc.gridx = 1; ventanaNacimiento.add(txtFechaNac, gbc);
+                
+                gbc.gridx = 0; gbc.gridy = 3; ventanaNacimiento.add(lblNombre, gbc);
+                gbc.gridx = 1; ventanaNacimiento.add(txtNombre, gbc);
+                
+                gbc.gridx = 0; gbc.gridy = 4; ventanaNacimiento.add(lblEstadoCivil, gbc);
+                gbc.gridx = 1; ventanaNacimiento.add(txtEstadoCivil, gbc);
+                
+                gbc.gridx = 0; gbc.gridy = 5; ventanaNacimiento.add(lblRutConyuge, gbc);
+                gbc.gridx = 1; ventanaNacimiento.add(txtRutConyuge, gbc);
+                
+                gbc.gridx = 0; gbc.gridy = 6; ventanaNacimiento.add(lblNewSucursal, gbc);
+                gbc.gridx = 1; ventanaNacimiento.add(cmbNewSucursal, gbc);
+                
+                gbc.gridx = 0; gbc.gridy = 7; ventanaNacimiento.add(lblVivo, gbc);
+                gbc.gridx = 1; ventanaNacimiento.add(chkVivo, gbc);
+                
+                
+                gbc.gridx = 0; gbc.gridy = 8; gbc.anchor = java.awt.GridBagConstraints.CENTER;
+                ventanaNacimiento.add(btnModificar, gbc);
+                gbc.gridx = 1; ventanaNacimiento.add(btnCancelar, gbc);
+                
+                // Acción del botón registrar
+                btnModificar.addActionListener(ev -> {
+                    try {
+                        java.time.LocalDate fechaNac = java.time.LocalDate.parse(txtFechaNac.getText());
+                        String rut = txtRut.getText();
+                        String rutConyuge = txtRutConyuge.getText();
+                        String nombre = txtNombre.getText();
+                        String estadoCivil = txtEstadoCivil.getText();
+                        int indexSucursalTarget = cmbSucursalTarget.getSelectedIndex();
+                        int indexNewSucursal = cmbNewSucursal.getSelectedIndex();
+                        boolean estaViva = chkVivo.isSelected();
+                        
+                        if(rutConyuge.isEmpty() || rutConyuge.isBlank()){
+                            rutConyuge=null;
+                        }
+                        
+                        if(rut.isEmpty() || nombre.isEmpty() || 
+                           estadoCivil.isEmpty() || indexSucursalTarget == -1 || indexNewSucursal == -1) {
+                            javax.swing.JOptionPane.showMessageDialog(ventanaNacimiento, "Todos los campos son obligatorios");
+                            return;
+                        }
+                        
+                        boolean resultado=sistema.modificarPersonaPorSucursal(rut, nombre, fechaNac, rutConyuge, estadoCivil, estaViva, indexSucursalTarget, indexNewSucursal);
+                        if(resultado == true){
+                            javax.swing.JOptionPane.showMessageDialog(ventanaNacimiento, "Persona Modificada exitosamente");
+                            ventanaNacimiento.dispose();
+                        }
+                        else{
+                            javax.swing.JOptionPane.showMessageDialog(ventanaNacimiento, "Modificacion fallida");
+                        }
+                        
+                    } catch (Exception ex) {
+                        javax.swing.JOptionPane.showMessageDialog(ventanaNacimiento, "Error en el formato de fecha. Use YYYY-MM-DD");
+                    }
+                });
+                
+                // Acción del botón cancelar
+                btnCancelar.addActionListener(ev -> ventanaNacimiento.dispose());
+                
+                ventanaNacimiento.setVisible(true);
+            });
+            
             //BOTON MOSTRAR TODOS LOS NACIMIENTOS
             JButton btnMosTodNac = new JButton("Listar nacimientos"); 
             btnMosTodNac.setPreferredSize(new java.awt.Dimension(200,40));
@@ -533,6 +681,7 @@ public class AppGUI {
                 javax.swing.JTable tablaNacList = new javax.swing.JTable(datos,columnas);
                 winNacList.add(new javax.swing.JScrollPane(tablaNacList));
             });
+            
             
             //BOTON AGREGAR SUCURSAL
             JButton btnAgrSuc= new JButton("Agregar Sucursal"); 
